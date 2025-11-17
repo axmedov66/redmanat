@@ -6,168 +6,46 @@
 <title>Tapşırıqlar</title>
 
 <style>
-    body {
-        margin: 0;
-        background: #0D0D0D;
-        font-family: "Poppins", Arial, sans-serif;
-        color: white;
-        padding-bottom: 90px;
-    }
-
-    /* SECTION HEADER */
-    .section-block {
-        margin-left: 15px;
-        margin-top: 10px;
-    }
-    .section-title {
-        font-size: 28px;
-        font-weight: 700;
-    }
-    .section-sub {
-        font-size: 14px;
-        color: #a8a8a8;
-        margin-top: 4px;
-    }
-
-    /* BALANCE CARD */
-    .balance-card {
-        background: #141414;
-        margin: 18px;
-        padding: 22px;
-        border-radius: 22px;
-    }
-    .balance-value {
-        font-size: 38px;
-        font-weight: 700;
-        margin-top: 10px;
-    }
-    .balance-usd {
-        color: #c1c1c1;
-        margin-top: 5px;
-        font-size: 14px;
-    }
-
-    /* TASK CARD */
-    .task-card {
-        background: #141414;
-        margin: 14px;
-        padding: 16px;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        gap: 13px;
-        transition: 0.3s;
-        border: 2px solid transparent;
-    }
-    .task-card.completed {
-        border: 2px solid #00ff75;
-        background: #0f2015;
-    }
-
-    .task-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
-        background: #1f1f1f;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 26px;
-    }
-
-    .task-info { flex: 1; }
-    .task-title { font-size: 17px; font-weight: 700; }
-    .task-desc { color: #b3b3b3; font-size: 14px; margin-top: 2px; }
-    .task-reward {
-        background: #D72626;
-        padding: 4px 10px;
-        border-radius: 8px;
-        font-size: 13px;
-        margin-top: 6px;
-        width: fit-content;
-    }
-
-    .start-btn {
-        background: #D72626;
-        padding: 12px 18px;
-        border-radius: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        min-width: 70px;
-        text-align: center;
-        transition: 0.3s;
-    }
-    .start-btn.disabled {
-        background: #555;
-        cursor: default;
-    }
-
-    /* TOAST */
-    #toast {
-        position: fixed;
-        top: 15px;
-        right: 15px;
-        background: #16c04e;
-        padding: 12px 18px;
-        border-radius: 12px;
-        font-weight: 600;
-        display: none;
-        box-shadow: 0 0 15px rgba(0,255,100,0.4);
-        z-index: 1000;
-    }
-
-    /* BOTTOM NAV */
-    .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: #111;
-        padding: 10px 0;
-        display: flex;
-        justify-content: space-around;
-        border-top: 1px solid #2a2a2a;
-        z-index: 1000;
-    }
-
-    .bottom-nav div {
-        color: #b3b3b3;
-        text-align: center;
-        font-size: 12px;
-    }
-
-    .active {
-        color: #E72424 !important;
-    }
+    body { margin: 0; background: #0f0f0f; font-family: Arial, sans-serif; color: white; }
+    .container { padding: 15px; padding-bottom: 120px; }
+    .card { background:#1a1a1a; border-radius:20px; padding:18px; margin-bottom:18px; }
+    .info-box { background:#1f1f1f; padding:15px; border-radius:16px; text-align:center; color:#bbb; }
+    .bottom-nav { position:fixed; bottom:0; left:0; width:100%; background:#1a1a1a; padding:12px 0; display:flex; justify-content:space-around; border-top:1px solid #333; }
+    .bottom-nav div{ text-align:center; font-size:13px; color:#bbb; }
+    .active{ color:#ff3d3d!important; }
+    .task-card{ background:#1a1a1a; padding:18px; border-radius:20px; margin-top:15px; }
+    .task-header{ display:flex; justify-content:space-between; align-items:center; }
+    .start-btn{ width:100%; padding:12px; border:none; border-radius:14px; background:#ff2e2e; color:white; font-size:16px; font-weight:bold; margin-top:10px; cursor:pointer; }
+    .countdown{ font-size:16px; margin-top:10px; color:#6fe36f; font-weight:bold; display:none; }
 </style>
 </head>
 <body>
 
-<!-- TOAST -->
-<div id="toast"></div>
+<div class="container">
 
-<!-- SECTION HEADER -->
-<div class="section-block">
-    <div class="section-title">Tapşırıqlar</div>
-    <div class="section-sub">Sadə tapşırıqları yerinə yetirərək pul qazanın</div>
-</div>
-
-<!-- BALANCE -->
-<div class="balance-card">
-    <div style="color:#b7b7b7;">Balansınız</div>
-    <div class="balance-value" id="balanceText">0.000 ₼</div>
-    <div class="balance-usd" id="balanceUsd">≈ $0.000</div>
-</div>
-
-<!-- TASK: MANAT PLUS -->
-<div class="task-card" id="task1">
-    <div class="task-icon">✈️</div>
-    <div class="task-info">
-        <div class="task-title">Manat Plus qrupu</div>
-        <div class="task-desc">Qatılın</div>
-        <div class="task-reward">+0.010 ₼</div>
+    <!-- BALANS -->
+    <div class="card">
+        <div style="color:#888;">Balansınız</div>
+        <div class="balance-big" id="bal" style="font-size:32px; font-weight:bold;">0.000 ₼</div>
     </div>
-    <div class="start-btn" id="task1btn" onclick="startTask(1)">Başla</div>
+
+    <!-- INFO BLOCK -->
+    <div class="info-box">
+        <div style="font-size:20px; font-weight:bold; color:white;">Tapşırıqlar</div>
+        Sadə tapşırıqları yerinə yetirərək pul qazanın
+    </div>
+
+    <!-- ONLY MANAT PLUS GROUP TASK -->
+    <div class="task-card">
+        <div class="task-header">
+            <div style="font-size:18px; font-weight:bold;">Manat Plus Qrupu</div>
+            <div style="color:#6fe36f; font-weight:bold;">+0.010 ₼</div>
+        </div>
+        <div style="color:#aaa; margin-top:5px;">Qrupa daxil olun və mükafat qazanın.</div>
+
+        <button id="startBtn" class="start-btn">Başla</button>
+        <div id="countdown" class="countdown"></div>
+    </div>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -180,94 +58,64 @@
 </div>
 
 <script>
-/* ========== JSON TAPŞIRIQLAR ========== */
-let tasks = {
-    1: { completed: false, reward: 0.010 }
+// ===============================
+// HOME.HTML İLƏ EYNİ JSON BALANS
+// ===============================
+let userData = JSON.parse(localStorage.getItem("userData")) || {
+    balans: 0,
+    ads: 0,
+    totalads: 50
 };
 
-if (!localStorage.getItem("tasksData")) {
-    localStorage.setItem("tasksData", JSON.stringify(tasks));
-} else {
-    tasks = JSON.parse(localStorage.getItem("tasksData"));
+document.getElementById("bal").textContent = userData.balans.toFixed(3) + " ₼";
+
+// ===============================
+// MANAT PLUS QRUPU TAPŞIRIĞI
+// ===============================
+let taskDone = localStorage.getItem("manatPlusDone") === "1";
+let startBtn = document.getElementById("startBtn");
+let countdown = document.getElementById("countdown");
+
+if (taskDone) {
+    startBtn.style.background = "#3cb13c";
+    startBtn.textContent = "Tamamlandı";
+    startBtn.disabled = true;
 }
 
-/* ========== BALANS YÜKLƏ ========== */
-function loadBalance() {
-    let bal = parseFloat(localStorage.getItem("balance") || "0");
-    document.getElementById("balanceText").innerText = bal.toFixed(3) + " ₼";
-    document.getElementById("balanceUsd").innerText = "≈ $" + (bal * 0.57).toFixed(3);
-}
-loadBalance();
-
-/* ========== TAPŞIRIĞIN STATUSUNU YÜKLƏ ========== */
-function loadTaskStatus() {
-    if (tasks[1].completed === true) {
-        let card = document.getElementById("task1");
-        let btn = document.getElementById("task1btn");
-
-        card.classList.add("completed");
-        btn.innerText = "✔";
-        btn.style.background = "#00ff75";
-        btn.classList.add("disabled");
-        btn.onclick = null;
-    }
-}
-loadTaskStatus();
-
-/* ========== TAPŞIRIĞA BAŞLA ========== */
-function startTask(id) {
-    if (tasks[id].completed) return;
-
-    window.open("https://t.me/ads_reklam69", "_blank");
-
-    let btn = document.getElementById("task" + id + "btn");
-    btn.innerText = "5s";
-    btn.classList.add("disabled");
-    btn.onclick = null;
-
-    let countdown = 5;
-    let interval = setInterval(() => {
-        countdown--;
-        btn.innerText = countdown + "s";
-
-        if (countdown <= 0) {
-            clearInterval(interval);
-            completeTask(id);
-        }
-    }, 1000);
-}
-
-/* ========== TAPŞIRIĞI TAMAMLA ========== */
-function completeTask(id) {
-    tasks[id].completed = true;
-    localStorage.setItem("tasksData", JSON.stringify(tasks));
-
-    let card = document.getElementById("task" + id);
-    let btn = document.getElementById("task" + id + "btn");
-
-    card.classList.add("completed");
-    btn.innerText = "✔";
-    btn.style.background = "#00ff75";
-
-    // BALANSI ARTIR
-    let bal = parseFloat(localStorage.getItem("balance") || "0");
-    bal += tasks[id].reward;
-    localStorage.setItem("balance", bal.toFixed(3));
-    loadBalance();
-
-    // BİLDİRİŞ
-    showToast("Balansınıza +" + tasks[id].reward.toFixed(3) + " ₼ əlavə olundu");
-}
-
-/* ========== TOAST ========== */
-function showToast(text) {
-    let toast = document.getElementById("toast");
-    toast.innerText = text;
-    toast.style.display = "block";
+startBtn.addEventListener("click", () => {
+    window.location.href = "https://t.me/ads_reklam69";
 
     setTimeout(() => {
-        toast.style.display = "none";
-    }, 2500);
+        startBtn.style.display = "none";
+        countdown.style.display = "block";
+
+        let time = 5;
+        countdown.textContent = "Geri sayım: " + time + "s";
+
+        let timer = setInterval(() => {
+            time--;
+            countdown.textContent = "Geri sayım: " + time + "s";
+
+            if (time <= 0) {
+                clearInterval(timer);
+                finishTask();
+            }
+        }, 1000);
+    }, 1000);
+});
+
+function finishTask() {
+    userData.balans += 0.010;
+    localStorage.setItem("userData", JSON.stringify(userData));
+
+    localStorage.setItem("manatPlusDone", "1");
+
+    countdown.textContent = "Tapşırıq yerinə yetirildi! +0.010 ₼";
+    countdown.style.color = "#6fe36f";
+
+    setTimeout(() => { countdown.style.display = "none"; }, 2500);
+
+    document.getElementById("bal").textContent = userData.balans.toFixed(3) + " ₼";
 }
 </script>
 
