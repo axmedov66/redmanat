@@ -81,22 +81,23 @@ body { margin:0; background:#0c0c0c; font-family:Arial,sans-serif; color:white; 
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #111;
+    background: #1a1a1a;
     display: flex;
-    justify-content: space-evenly; /* elementlər bərabər paylanır */
-    padding: 14px 0; /* hündürlük artırıldı */
+    justify-content: space-evenly; /* divlər bərabər paylanır */
+    padding: 14px 0; /* hündürlük artırıldı, barmaq rahat */
     border-top: 1px solid #333;
     box-sizing: border-box;
     z-index: 999;
+    gap: 2px; /* divlər arasındakı məsafə */
 }
 
 .nav-item {
-    flex: 1;
+    flex: 1;               /* bütün itemlər bərabər eni */
     text-align: center;
-    font-size: 14px; /* icon+yazı ölçüsü */
+    font-size: 14px;       /* icon+yazı ölçüsü */
     color: #bbb;
     cursor: pointer;
-    padding: 8px 0; /* icon-yazı ətrafı boşluq */
+    padding: 8px 0;        /* icon-yazı ətrafı boşluq */
 }
 
 .nav-item.active {
@@ -105,7 +106,7 @@ body { margin:0; background:#0c0c0c; font-family:Arial,sans-serif; color:white; 
 }
 
 .nav-item br {
-    line-height: 1.1; /* icon ilə yazı arasındakı məsafə */
+    line-height: 1.1;      /* icon ilə yazı arasındakı məsafə */
 }
 </style>
 
