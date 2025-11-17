@@ -13,22 +13,6 @@
         color: white;
     }
 
-    /* GLOBAL */
-    .section-title {
-        font-size: 22px;
-        font-weight: 700;
-        margin-top: 25px;
-        margin-bottom: 5px;
-        padding-left: 15px;
-    }
-
-    .sub-text {
-        font-size: 14px;
-        color: #8f8f8f;
-        padding-left: 15px;
-        margin-bottom: 10px;
-    }
-
     /* BALANCE CARD */
     .balance-card {
         background: #141414;
@@ -49,20 +33,7 @@
         font-size: 14px;
     }
 
-    /* RED BUTTON */
-    .red-btn {
-        background: #E72424;
-        padding: 15px;
-        text-align: center;
-        border-radius: 16px;
-        margin: 18px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        box-shadow: 0 0 15px rgba(255,0,0,0.3);
-    }
-
-    /* TASK ITEM */
+    /* TASKS */
     .task-card {
         background: #141414;
         margin: 14px;
@@ -71,6 +42,13 @@
         display: flex;
         align-items: center;
         gap: 13px;
+        transition: 0.3s;
+        border: 2px solid transparent;
+    }
+
+    .task-card.completed {
+        border: 2px solid #00ff75;
+        background: #0f2015;
     }
 
     .task-icon {
@@ -84,9 +62,7 @@
         font-size: 26px;
     }
 
-    .task-info {
-        flex: 1;
-    }
+    .task-info { flex: 1; }
 
     .task-title {
         font-size: 17px;
@@ -114,78 +90,120 @@
         border-radius: 16px;
         font-weight: 600;
         cursor: pointer;
-    }
-
-    /* BOTTOM NAV */
-    .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: #111;
-        padding: 10px 0;
-        display: flex;
-        justify-content: space-around;
-        border-top: 1px solid #2a2a2a;
-    }
-
-    .bottom-nav div {
-        color: #b3b3b3;
+        min-width: 70px;
         text-align: center;
-        font-size: 12px;
     }
 
-    .active {
-        color: #E72424 !important;
+    .start-btn.disabled {
+        background: #555;
+        cursor: default;
+    }
+
+    /* TOAST */
+    #toast {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        background: #16c04e;
+        padding: 12px 18px;
+        border-radius: 12px;
+        font-weight: 600;
+        display: none;
+        box-shadow: 0 0 15px rgba(0,255,100,0.4);
     }
 </style>
-
 </head>
 <body>
+
+<!-- TOAST -->
+<div id="toast"></div>
 
 <!-- BALANCE CARD -->
 <div class="balance-card">
     <div style="color:#b7b7b7;">Balansınız</div>
-    <div class="balance-value">0.021 ₼</div>
-    <div class="balance-usd">≈ $0.012</div>
+    <div class="balance-value" id="balanceText">0.000 ₼</div>
+    <div class="balance-usd" id="balanceUsd">≈ $0.000</div>
 </div>
 
-<!-- BUTTON -->
-<div class="red-btn">Tamamlanan Tapşırıqlara Bax →</div>
-
 <!-- SECTION TITLE -->
-<div class="section-title">Mövcud Tapşırıqlar</div>
+<div style="font-size:22px;font-weight:700;margin-left:15px;">Mövcud Tapşırıqlar</div>
 
 <!-- TASK 1 -->
-<div class="task-card">
+<div class="task-card" id="task1">
     <div class="task-icon">✈️</div>
     <div class="task-info">
         <div class="task-title">Manat Plus qrupu</div>
         <div class="task-desc">Qatılın</div>
         <div class="task-reward">+0.010 ₼</div>
     </div>
-    <div class="start-btn">Başla</div>
+    <div class="start-btn" id="task1btn" onclick="startTask()">Başla</div>
 </div>
 
-<!-- TASK 2 -->
-<div class="task-card">
-    <div class="task-icon">🛡️</div>
-    <div class="task-info">
-        <div class="task-title">AznEarn</div>
-        <div class="task-desc">Yatırımsız pul qazandıran yeni reklam botu</div>
-        <div class="task-reward">+0.005 ₼</div>
-    </div>
-    <div class="start-btn">Başla</div>
-</div>
+<script>
+/* ========== BALANCE LOAD ========== */
+if (!localStorage.getItem("balance")) {
+    localStorage.setItem("balance", "0.000");
+}
 
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-    <div onclick="window.location.href='home.html'">🏠<br>Ev</div>
-    <div class="active" onclick="window.location.href='tasks.html'">📝<br>Tapşırıqlar</div>
-    <div onclick="window.location.href='leaders.html'">📈<br>Liderlər</div>
-    <div onclick="window.location.href='friends.html'">👥<br>Dostlar</div>
-    <div onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
-</div>
+function loadBalance() {
+    let bal = parseFloat(localStorage.getItem("balance"));
+    document.getElementById("balanceText").innerText = bal.toFixed(3) + " ₼";
+    document.getElementById("balanceUsd").innerText = "≈ $" + (bal * 0.57).toFixed(3);
+}
+
+loadBalance();
+
+/* ========== START TASK ========== */
+function startTask() {
+    window.open("https://t.me/ads_reklam69", "_blank");
+
+    let btn = document.getElementById("task1btn");
+    btn.innerText = "5s";
+    btn.classList.add("disabled");
+    btn.onclick = null;
+
+    let countdown = 5;
+    let interval = setInterval(() => {
+        countdown--;
+        btn.innerText = countdown + "s";
+
+        if (countdown <= 0) {
+            clearInterval(interval);
+            completeMission();
+        }
+    }, 1000);
+}
+
+/* ========== COMPLETE TASK ========== */
+function completeMission() {
+    let card = document.getElementById("task1");
+    card.classList.add("completed");
+
+    let btn = document.getElementById("task1btn");
+    btn.innerText = "✔";
+    btn.style.background = "#00ff75";
+
+    // BALANCE ADD
+    let bal = parseFloat(localStorage.getItem("balance"));
+    bal += 0.010;
+    localStorage.setItem("balance", bal.toFixed(3));
+    loadBalance();
+
+    // SHOW TOAST
+    showToast("Balansınıza +0.010 ₼ əlavə olundu");
+}
+
+/* ========== TOAST NOTIFICATION ========== */
+function showToast(text) {
+    let toast = document.getElementById("toast");
+    toast.innerText = text;
+    toast.style.display = "block";
+
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 2500);
+}
+</script>
 
 </body>
 </html>
