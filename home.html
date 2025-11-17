@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mobil UI</title>
+
 <style>
     body {
         margin: 0;
@@ -107,6 +108,7 @@
         font-size: 18px;
         font-weight: bold;
         margin-top: 10px;
+        cursor: pointer;
     }
 
     .bottom-nav {
@@ -130,7 +132,6 @@
     .active {
         color: #ff3d3d !important;
     }
-
 </style>
 </head>
 <body>
@@ -154,8 +155,8 @@
     <!-- BALANCE CARD -->
     <div class="card">
         <div style="color:#888;">Balansınız</div>
-        <div class="balance-big">0.016 ₼</div>
-        <div class="sub">≈ $0.009</div>
+        <div class="balance-big">0.000 ₼</div>
+        <div class="sub">≈ $0.000</div>
     </div>
 
     <!-- AD CARD -->
@@ -170,7 +171,7 @@
 
         <div class="adv-grid">
             <div class="adv-box">
-                <div class="num">0</div>
+                <div class="num" id="watchedCount">0</div>
                 <div style="color:#888;">İzlənən reklamlar</div>
             </div>
             <div class="adv-box">
@@ -181,10 +182,10 @@
 
         <div style="color:#ccc;">İrəliləyiş</div>
         <div class="progress">
-            <div class="progress-bar" style="width:0%;"></div>
+            <div id="progressBar" class="progress-bar"></div>
         </div>
 
-        <button class="watch-btn">▶ İndi izlə</button>
+        <button class="watch-btn" id="watchBtn">▶ İndi izlə</button>
     </div>
 
 </div>
@@ -198,31 +199,84 @@
     <div>💲<br>Çıxarış</div>
 </div>
 
+
+
 <!-- TELEGRAM API -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+// Telegram məlumatları
+const tg = window.Telegram.WebApp;
+tg.expand();
 
-    const user = tg.initDataUnsafe.user;
+const user = tg.initDataUnsafe.user;
 
-    if (user) {
-        // Profil şəkli
-        document.getElementById("userPhoto").src =
-            user.photo_url ? user.photo_url : "https://via.placeholder.com/150";
+if (user) {
+    document.getElementById("userPhoto").src = user.photo_url || "https://via.placeholder.com/150";
+    document.getElementById("userName").textContent = user.first_name + (user.last_name ? " " + user.last_name : "");
+    document.getElementById("userTag").textContent = user.username ? "@" + user.username : "";
+}
 
-        // Ad
-        document.getElementById("userName").textContent =
-            user.first_name + (user.last_name ? " " + user.last_name : "");
+// ------------------------------
+// BALANS + REKLAM MEXANİZMİ
+// ------------------------------
+let balance = 0.000;
+let watchedAds = 0;
 
-        // Username
-        document.getElementById("userTag").textContent =
-            user.username ? "@" + user.username : "";
-    } else {
-        document.getElementById("userName").textContent = "Qonaq";
-        document.getElementById("userTag").textContent = "";
-    }
+const balanceEl = document.querySelector(".balance-big");
+const watchedEl = document.getElementById("watchedCount");
+const progressBar = document.getElementById("progressBar");
+const watchBtn = document.getElementById("watchBtn");
+
+// Reklam SDK-ni dinamik yükləyən funksiya
+function loadSDK(callback) {
+    const script = document.createElement("script");
+    script.src = "//libtl.com/sdk.js";
+    script.setAttribute("data-zone", "10198423");
+    script.setAttribute("data-sdk", "show_10198423");
+    script.onload = callback;
+    document.body.appendChild(script);
+}
+
+// Reklam düyməsi
+watchBtn.addEventListener("click", () => {
+
+    watchBtn.disabled = true;
+    watchBtn.textContent = "Reklam açılır...";
+
+    loadSDK(() => {
+
+        if (typeof show_10198423 === "function") {
+            show_10198423();
+        }
+
+        watchBtn.textContent = "Reklam gedir (10s)";
+
+        let timeLeft = 10;
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            watchBtn.textContent = `Reklam gedir (${timeLeft}s)`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+
+                watchedAds += 1;
+                balance += 0.001;
+
+                watchedEl.textContent = watchedAds;
+                balanceEl.textContent = balance.toFixed(3) + " ₼";
+
+                // Proqres %
+                let percent = (watchedAds / 50) * 100;
+                progressBar.style.width = percent + "%";
+
+                watchBtn.textContent = "▶ İndi izlə";
+                watchBtn.disabled = false;
+            }
+        }, 1000);
+    });
+});
 </script>
 
 </body>
