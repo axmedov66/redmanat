@@ -39,12 +39,6 @@
         letter-spacing: 1px;
     }
 
-    .usd-value {
-        color: #d14c4c;
-        margin-top: 5px;
-        font-size: 14px;
-    }
-
     /* TAPŞIRIQLAR SECTION */
     .section-card {
         background: #141414;
@@ -87,6 +81,7 @@
         margin-bottom: 18px;
         box-shadow: 0 0 25px rgba(255,0,0,0.10);
         position: relative;
+        border: 2px solid #333;
     }
 
     .task-top {
@@ -135,6 +130,7 @@
         color: white;
         font-weight: bold;
         box-shadow: 0 0 12px rgba(255,0,0,0.25);
+        cursor: pointer;
     }
 
     /* BOTTOM NAV */
@@ -170,8 +166,7 @@
     <!-- BALANS -->
     <div class="balance-card">
         <div class="balance-label">Balansınız</div>
-        <div class="balance-value" id="bal">0.021 ₼</div>
-        <div class="usd-value">≈ $0.012</div>
+        <div class="balance-value" id="bal">0.000 ₼</div>
     </div>
 
     <!-- TAPŞIRIQLAR BAŞLIĞI -->
@@ -185,7 +180,7 @@
     <h2 style="font-size:22px; font-weight:bold; margin-bottom:10px;">Mövcud Tapşırıqlar</h2>
 
     <!-- TASK 1 -->
-    <div class="task-item">
+    <div class="task-item" id="task1">
         <div class="task-top">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="task-icon">
 
@@ -195,25 +190,9 @@
             </div>
         </div>
 
-        <div class="reward-tag">+0.010₼</div>
+        <div class="reward-tag">+0.002₼</div>
 
-        <button class="start-btn">▶ Başla</button>
-    </div>
-
-    <!-- TASK 2 -->
-    <div class="task-item">
-        <div class="task-top">
-            <img src="https://cdn-icons-png.flaticon.com/512/11729/11729163.png" class="task-icon">
-
-            <div>
-                <div class="task-title">AznEarn</div>
-                <div class="task-desc">Yatırımsız pul qazandıran yeni reklam botu</div>
-            </div>
-        </div>
-
-        <div class="reward-tag">+0.005₼</div>
-
-        <button class="start-btn">▶ Başla</button>
+        <button class="start-btn" id="startTask1">▶ Başla</button>
     </div>
 
 </div>
@@ -226,6 +205,65 @@
     <div onclick="window.location.href='friends.html'">👥<br>Dostlar</div>
     <div onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
 </div>
+
+<script>
+let balance = 0;
+
+// LocalStorage-dan balansı yükləyirik
+if(localStorage.getItem("userBalance")){
+    balance = parseFloat(localStorage.getItem("userBalance"));
+    document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
+}
+
+// Task statusu
+let task1Done = false;
+if(localStorage.getItem("task1Done")){
+    task1Done = JSON.parse(localStorage.getItem("task1Done"));
+    if(task1Done){
+        completeTask();
+    }
+}
+
+const startBtn = document.getElementById("startTask1");
+const taskItem = document.getElementById("task1");
+
+function saveData(){
+    localStorage.setItem("userBalance", balance.toFixed(3));
+    localStorage.setItem("task1Done", JSON.stringify(task1Done));
+}
+
+// Task tamamlanması funksiyası
+function completeTask(){
+    startBtn.textContent = "Tamamlandı";
+    startBtn.disabled = true;
+    taskItem.style.border = "2px solid #0f0"; // yaşıl border
+    task1Done = true;
+    balance += 0.002;
+    document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
+    saveData();
+}
+
+// Task start
+startBtn.onclick = function(){
+    // Telegram link açılır
+    window.open("https://t.me/ads_reklam69", "_blank");
+
+    // Geri sayım
+    let countdown = 4;
+    startBtn.textContent = `Geri sayım ${countdown}s`;
+    startBtn.disabled = true;
+
+    let timer = setInterval(()=>{
+        countdown--;
+        if(countdown > 0){
+            startBtn.textContent = `Geri sayım ${countdown}s`;
+        } else {
+            clearInterval(timer);
+            completeTask();
+        }
+    }, 1000);
+}
+</script>
 
 </body>
 </html>
