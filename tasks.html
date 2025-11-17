@@ -2,53 +2,42 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Tapşırıqlar</title>
-
 <style>
-    body { margin: 0; background: #0f0f0f; font-family: Arial, sans-serif; color: white; }
-    .container { padding: 15px; padding-bottom: 120px; }
+    body { margin:0; background:#0f0f0f; color:white; font-family:Arial; }
+    .container { padding:15px; padding-bottom:120px; }
     .card { background:#1a1a1a; border-radius:20px; padding:18px; margin-bottom:18px; }
-    .info-box { background:#1f1f1f; padding:15px; border-radius:16px; text-align:center; color:#bbb; }
+    .task-box { background:#1f1f1f; border-radius:18px; padding:16px; margin-top:10px; border:2px solid #333; position:relative; }
+    .task-title { font-size:20px; font-weight:bold; display:flex; align-items:center; gap:10px; }
+    .task-desc { color:#aaa; margin-top:5px; }
+    .task-btn { margin-top:12px; width:100%; padding:12px; border:none; border-radius:14px; background:#ff2e2e; color:white; font-size:17px; font-weight:bold; }
+    .done-line { position:absolute; right:12px; top:12px; background:#0f0; color:white; padding:4px 10px; border-radius:10px; font-weight:bold; display:flex; align-items:center; gap:6px; }
     .bottom-nav { position:fixed; bottom:0; left:0; width:100%; background:#1a1a1a; padding:12px 0; display:flex; justify-content:space-around; border-top:1px solid #333; }
-    .bottom-nav div{ text-align:center; font-size:13px; color:#bbb; }
-    .active{ color:#ff3d3d!important; }
-    .task-card{ background:#1a1a1a; padding:18px; border-radius:20px; margin-top:15px; }
-    .task-header{ display:flex; justify-content:space-between; align-items:center; }
-    .start-btn{ width:100%; padding:12px; border:none; border-radius:14px; background:#ff2e2e; color:white; font-size:16px; font-weight:bold; margin-top:10px; cursor:pointer; }
-    .countdown{ font-size:16px; margin-top:10px; color:#6fe36f; font-weight:bold; display:none; }
+    .bottom-nav div { text-align:center; font-size:13px; color:#bbb; }
+    .active { color:#ff3d3d !important; }
 </style>
 </head>
 <body>
-
 <div class="container">
 
-    <!-- BALANS -->
-    <div class="card">
+    <div class="card" id="balanceCard">
         <div style="color:#888;">Balansınız</div>
-        <div class="balance-big" id="bal" style="font-size:32px; font-weight:bold;">0.000 ₼</div>
+        <div id="bal" style="font-size:32px; font-weight:bold;">0.000 ₼</div>
     </div>
 
-    <!-- INFO BLOCK -->
-    <div class="info-box">
-        <div style="font-size:20px; font-weight:bold; color:white;">Tapşırıqlar</div>
-        Sadə tapşırıqları yerinə yetirərək pul qazanın
-    </div>
+    <div class="card">
+        <div style="font-size:20px; font-weight:bold;">Tapşırıqlar</div>
+        <div style="color:#aaa; margin-top:4px;">Sadə tapşırıqları yerinə yetirərək pul qazanın</div>
 
-    <!-- ONLY MANAT PLUS GROUP TASK -->
-    <div class="task-card">
-        <div class="task-header">
-            <div style="font-size:18px; font-weight:bold;">Manat Plus Qrupu</div>
-            <div style="color:#6fe36f; font-weight:bold;">+0.010 ₼</div>
+        <div class="task-box" id="manatTask">
+            <div class="task-title">🚀 Manat Plus Qrupu</div>
+            <div class="task-desc">Qrupa qoşul və 0.003 ₼ qazan</div>
+            <button class="task-btn" id="startBtn">Başla</button>
         </div>
-        <div style="color:#aaa; margin-top:5px;">Qrupa daxil olun və mükafat qazanın.</div>
-
-        <button id="startBtn" class="start-btn">Başla</button>
-        <div id="countdown" class="countdown"></div>
     </div>
 </div>
 
-<!-- BOTTOM NAV -->
 <div class="bottom-nav">
     <div onclick="window.location.href='home.html'">🏠<br>Ev</div>
     <div class="active" onclick="window.location.href='tasks.html'">📝<br>Tapşırıqlar</div>
@@ -58,66 +47,52 @@
 </div>
 
 <script>
-// ===============================
-// HOME.HTML İLƏ EYNİ JSON BALANS
-// ===============================
-let userData = JSON.parse(localStorage.getItem("userData")) || {
-    balans: 0,
-    ads: 0,
-    totalads: 50
-};
+let balance = 0;
+let taskDone = false;
 
-document.getElementById("bal").textContent = userData.balans.toFixed(3) + " ₼";
-
-// ===============================
-// MANAT PLUS QRUPU TAPŞIRIĞI
-// ===============================
-let taskDone = localStorage.getItem("manatPlusDone") === "1";
-let startBtn = document.getElementById("startBtn");
-let countdown = document.getElementById("countdown");
-
-if (taskDone) {
-    startBtn.style.background = "#3cb13c";
-    startBtn.textContent = "Tamamlandı";
-    startBtn.disabled = true;
+if(localStorage.getItem("userData")){
+    let d = JSON.parse(localStorage.getItem("userData"));
+    balance = d.balans;
+    document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
 }
 
-startBtn.addEventListener("click", () => {
+if(localStorage.getItem("tasksData")){
+    taskDone = JSON.parse(localStorage.getItem("tasksData")).manatDone;
+}
+
+const box = document.getElementById("manatTask");
+const btn = document.getElementById("startBtn");
+
+function saveAll(){
+    localStorage.setItem("userData", JSON.stringify({ balans: balance }));
+    localStorage.setItem("tasksData", JSON.stringify({ manatDone: taskDone }));
+}
+
+if(taskDone){
+    btn.style.display = "none";
+    box.style.border = "2px solid #00ff00";
+    box.innerHTML += `<div class='done-line'>+0.003 ₼ ✅</div>`;
+}
+
+btn.onclick = ()=>{
     window.location.href = "https://t.me/ads_reklam69";
-
-    setTimeout(() => {
-        startBtn.style.display = "none";
-        countdown.style.display = "block";
-
-        let time = 5;
-        countdown.textContent = "Geri sayım: " + time + "s";
-
-        let timer = setInterval(() => {
-            time--;
-            countdown.textContent = "Geri sayım: " + time + "s";
-
-            if (time <= 0) {
-                clearInterval(timer);
-                finishTask();
-            }
-        }, 1000);
-    }, 1000);
-});
-
-function finishTask() {
-    userData.balans += 0.010;
-    localStorage.setItem("userData", JSON.stringify(userData));
-
-    localStorage.setItem("manatPlusDone", "1");
-
-    countdown.textContent = "Tapşırıq yerinə yetirildi! +0.010 ₼";
-    countdown.style.color = "#6fe36f";
-
-    setTimeout(() => { countdown.style.display = "none"; }, 2500);
-
-    document.getElementById("bal").textContent = userData.balans.toFixed(3) + " ₼";
-}
+    btn.textContent = "Geri sayım 5s";
+    btn.disabled = true;
+    let t = 5;
+    let timer = setInterval(()=>{
+        t--; btn.textContent = `Geri sayım ${t}s`;
+        if(t <= 0){
+            clearInterval(timer);
+            taskDone = true;
+            balance += 0.003;
+            saveAll();
+            document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
+            btn.style.display = "none";
+            box.style.border = "2px solid #00ff00";
+            box.innerHTML += `<div class='done-line'>+0.003 ₼ ✅</div>`;
+        }
+    },1000);
+};
 </script>
-
 </body>
 </html>
