@@ -69,8 +69,12 @@ body { margin:0; background:#0c0c0c; font-family:Arial,sans-serif; color:white; 
     <div onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
 </div>
 
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
-// Balansı yüklə
+const tg = window.Telegram.WebApp;
+tg.expand();
+
+// Balansı LocalStorage-dan yüklə
 let balance = parseFloat(localStorage.getItem("userBalance")) || 0;
 document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
 
@@ -89,7 +93,7 @@ document.querySelectorAll(".task-item").forEach(task => {
         document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
         tasksStatus[taskId] = true;
         localStorage.setItem("tasksStatus", JSON.stringify(tasksStatus));
-        localStorage.setItem("userBalance", balance.toFixed(3));
+        localStorage.setItem("userBalance", balance);
         btn.textContent = "Tamamlandı";
         btn.disabled = true;
         task.style.border = "2px solid #0f0";
@@ -100,7 +104,10 @@ document.querySelectorAll(".task-item").forEach(task => {
 
     btn.onclick = function() {
         if(tasksStatus[taskId]) return;
-        window.open("https://t.me/ads_reklam69", "_blank");
+        // Telegram linki WebApp-da açılır
+        if(tg.initData) tg.openLink("https://t.me/ads_reklam69");
+        else window.open("https://t.me/ads_reklam69", "_blank");
+
         let countdown = 4;
         btn.textContent = `Geri sayım ${countdown}s`;
         btn.disabled = true;
@@ -112,6 +119,5 @@ document.querySelectorAll(".task-item").forEach(task => {
     };
 });
 </script>
-
 </body>
 </html>
