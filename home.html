@@ -119,28 +119,6 @@
         left: 0;
         width: 100%;
         background: #1a1a1a;
-        padding: 2px 0;
-        display: flex;
-        justify-content: space-around;
-        border-top: 1px solid #333;
-    }
-
-    .bottom-nav div {
-        text-align: center;
-        font-size: 13px;
-        color: #bbb;
-    }
-
-    .active {
-        color: #ff3d3d !important;
-    }
-    
-   .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: #1a1a1a;
         display: flex;
         justify-content: space-evenly; /* divlər bərabər paylanır */
         padding: 14px 0; /* hündürlük artırıldı, barmaq rahat */
@@ -228,15 +206,11 @@
 <!-- BOTTOM MENU -->
 <div class="bottom-nav">
     <div class="nav-item" onclick="window.location.href='home.html'">🏠<br>Ev</div>
-    <div class="nav-item active" onclick="window.location.href='tasks.html'">📝<br>Tapşırıqlar</div>
+    <div class="nav-item" onclick="window.location.href='tasks.html'">📝<br>Tapşırıqlar</div>
     <div class="nav-item" onclick="window.location.href='leaders.html'">📈<br>Liderlər</div>
     <div class="nav-item" onclick="window.location.href='friends.html'">👥<br>Dostlar</div>
     <div class="nav-item" onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
 </div>
-
-
-
-
 
 <!-- TELEGRAM API -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -261,8 +235,6 @@ if (tgUser) {
     document.getElementById("userName").textContent = userName;
     document.getElementById("userTag").textContent = userTag;
 }
-
-
 
 // ============================
 // JSON STORAGE SYSTEM
@@ -298,10 +270,8 @@ function saveUserData() {
     localStorage.setItem("userData", JSON.stringify(jsonData));
 }
 
-
-
 // ============================
-//   SDK REKLAM FUNKSIYASI
+// SDK REKLAM FUNKSIYASI
 // ============================
 function loadSDK(callback) {
     const script = document.createElement("script");
@@ -311,7 +281,6 @@ function loadSDK(callback) {
     script.onload = callback;
     document.body.appendChild(script);
 }
-
 
 // ============================
 // İNDİ İZLƏ — REKLAM PROSESI
@@ -362,10 +331,8 @@ watchBtn.addEventListener("click", () => {
     });
 });
 
-
-
 // ============================
-//   ANTI ZOOM / ANTI CHEAT
+// ANTI ZOOM / ANTI CHEAT
 // ============================
 document.addEventListener("gesturestart", e => e.preventDefault());
 document.addEventListener("gesturechange", e => e.preventDefault());
@@ -379,6 +346,23 @@ document.addEventListener('touchmove', function (event) {
     if (event.scale !== 1) event.preventDefault();
 }, { passive: false });
 
+// ============================
+// BOTTOM NAV AKTİV DÜYMƏ SƏHİFƏYƏ GÖRƏ
+// ============================
+const navItems = document.querySelectorAll(".nav-item");
+const currentPage = window.location.pathname.split("/").pop(); // home.html, tasks.html ...
+
+navItems.forEach(item => {
+    const onclickAttr = item.getAttribute("onclick");
+    if (!onclickAttr) return;
+    const href = onclickAttr.match(/'(.+?)'/)[1]; // onclick='window.location.href="home.html"'
+    
+    if (href === currentPage) {
+        item.classList.add("active");
+    } else {
+        item.classList.remove("active");
+    }
+});
 </script>
 
 </body>
