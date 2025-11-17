@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Tapşırıqlar</title>
-
 <style>
     body {
         margin: 0;
@@ -12,13 +11,7 @@
         font-family: Arial, sans-serif;
         color: white;
     }
-
-    .container {
-        padding: 15px;
-        padding-bottom: 130px;
-    }
-
-    /* BALANS KARTI */
+    .container { padding: 15px; padding-bottom: 130px; }
     .balance-card {
         background: #141414;
         padding: 22px;
@@ -26,20 +19,8 @@
         box-shadow: 0 0 25px rgba(255,0,0,0.12);
         margin-bottom: 20px;
     }
-
-    .balance-label {
-        color: #9a9a9a;
-        font-size: 15px;
-        margin-bottom: 5px;
-    }
-
-    .balance-value {
-        font-size: 36px;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-
-    /* TAPŞIRIQLAR SECTION */
+    .balance-label { color: #9a9a9a; font-size: 15px; margin-bottom: 5px; }
+    .balance-value { font-size: 36px; font-weight: bold; letter-spacing: 1px; }
     .section-card {
         background: #141414;
         padding: 22px;
@@ -48,18 +29,8 @@
         margin-bottom: 22px;
         text-align: center;
     }
-
-    .section-title {
-        font-size: 27px;
-        font-weight: bold;
-    }
-
-    .section-desc {
-        color: #b5b5b5;
-        margin-top: 8px;
-        font-size: 15px;
-    }
-
+    .section-title { font-size: 27px; font-weight: bold; }
+    .section-desc { color: #b5b5b5; margin-top: 8px; font-size: 15px; }
     .completed-btn {
         margin-top: 15px;
         background: #e42020;
@@ -71,9 +42,8 @@
         border: none;
         color: white;
         box-shadow: 0 0 18px rgba(255,0,0,0.32);
+        cursor: pointer;
     }
-
-    /* TASK ITEM */
     .task-item {
         background: #141414;
         padding: 20px;
@@ -83,30 +53,10 @@
         position: relative;
         border: 2px solid #333;
     }
-
-    .task-top {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .task-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
-    }
-
-    .task-title {
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-    .task-desc {
-        color: #b8b8b8;
-        margin-left: 63px;
-        margin-top: 3px;
-    }
-
+    .task-top { display: flex; align-items: center; gap: 15px; }
+    .task-icon { width: 48px; height: 48px; border-radius: 14px; }
+    .task-title { font-size: 20px; font-weight: bold; }
+    .task-desc { color: #b8b8b8; margin-left: 63px; margin-top: 3px; }
     .reward-tag {
         background: #ff2626;
         padding: 6px 12px;
@@ -116,7 +66,6 @@
         margin-top: 10px;
         font-weight: bold;
     }
-
     .start-btn {
         position: absolute;
         right: 20px;
@@ -132,8 +81,6 @@
         box-shadow: 0 0 12px rgba(255,0,0,0.25);
         cursor: pointer;
     }
-
-    /* BOTTOM NAV */
     .bottom-nav {
         position: fixed;
         bottom: 0;
@@ -145,17 +92,8 @@
         justify-content: space-around;
         border-top: 1px solid #333;
     }
-
-    .nav-item {
-        text-align: center;
-        font-size: 13px;
-        color: #bbb;
-    }
-
-    .active {
-        color: #ff3a3a !important;
-        font-weight: bold;
-    }
+    .nav-item { text-align: center; font-size: 13px; color: #bbb; }
+    .active { color: #ff3a3a !important; font-weight: bold; }
 </style>
 </head>
 
@@ -183,15 +121,12 @@
     <div class="task-item" id="task1">
         <div class="task-top">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="task-icon">
-
             <div>
                 <div class="task-title">Manat Plus qrupu</div>
                 <div class="task-desc">Qatılın</div>
             </div>
         </div>
-
         <div class="reward-tag">+0.002₼</div>
-
         <button class="start-btn" id="startTask1">▶ Başla</button>
     </div>
 
@@ -207,62 +142,58 @@
 </div>
 
 <script>
+// Balansı yüklə
 let balance = 0;
-
-// LocalStorage-dan balansı yükləyirik
 if(localStorage.getItem("userBalance")){
     balance = parseFloat(localStorage.getItem("userBalance"));
     document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
 }
 
-// Task statusu
-let task1Done = false;
-if(localStorage.getItem("task1Done")){
-    task1Done = JSON.parse(localStorage.getItem("task1Done"));
-    if(task1Done){
-        completeTask();
-    }
+// Tapşırıqların statusu JSON
+let tasksStatus = {};
+if(localStorage.getItem("tasksStatus")){
+    tasksStatus = JSON.parse(localStorage.getItem("tasksStatus"));
 }
 
-const startBtn = document.getElementById("startTask1");
-const taskItem = document.getElementById("task1");
+const task1Item = document.getElementById("task1");
+const startTask1Btn = document.getElementById("startTask1");
 
-function saveData(){
-    localStorage.setItem("userBalance", balance.toFixed(3));
-    localStorage.setItem("task1Done", JSON.stringify(task1Done));
-}
-
-// Task tamamlanması funksiyası
-function completeTask(){
-    startBtn.textContent = "Tamamlandı";
-    startBtn.disabled = true;
+// Funksiya: task tamamla
+function completeTask(taskId, reward, taskItem, btn){
+    btn.textContent = "Tamamlandı";
+    btn.disabled = true;
     taskItem.style.border = "2px solid #0f0"; // yaşıl border
-    task1Done = true;
-    balance += 0.002;
-    document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
-    saveData();
+    if(!tasksStatus[taskId]){
+        balance += reward;
+        document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
+    }
+    tasksStatus[taskId] = true;
+    localStorage.setItem("tasksStatus", JSON.stringify(tasksStatus));
+    localStorage.setItem("userBalance", balance.toFixed(3));
 }
 
-// Task start
-startBtn.onclick = function(){
-    // Telegram link açılır
+// Əgər əvvəldən tamamlanıbsa
+if(tasksStatus["task1"]){
+    completeTask("task1", 0.002, task1Item, startTask1Btn);
+}
+
+// Start düyməsi
+startTask1Btn.onclick = function(){
+    if(tasksStatus["task1"]) return; // artıq tamamlanıbsa
     window.open("https://t.me/ads_reklam69", "_blank");
-
-    // Geri sayım
     let countdown = 4;
-    startBtn.textContent = `Geri sayım ${countdown}s`;
-    startBtn.disabled = true;
-
+    startTask1Btn.textContent = `Geri sayım ${countdown}s`;
+    startTask1Btn.disabled = true;
     let timer = setInterval(()=>{
         countdown--;
         if(countdown > 0){
-            startBtn.textContent = `Geri sayım ${countdown}s`;
+            startTask1Btn.textContent = `Geri sayım ${countdown}s`;
         } else {
             clearInterval(timer);
-            completeTask();
+            completeTask("task1", 0.002, task1Item, startTask1Btn);
         }
-    }, 1000);
-}
+    },1000);
+};
 </script>
 
 </body>
