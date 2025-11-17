@@ -7,14 +7,17 @@
 <style>
     body { margin:0; background:#0f0f0f; color:white; font-family:Arial; }
     .container { padding:15px; padding-bottom:120px; }
-    .card { background:#1a1a1a; border-radius:20px; padding:18px; margin-bottom:18px; }
+    .card { background:#2a2a2a; border-radius:20px; padding:18px; margin-bottom:18px; }
+    .header-box { background:#1f1f1f; padding:16px; border-radius:18px; margin-bottom:18px; text-align:center; }
+    .header-box h1 { color:#ff3d3d; font-size:24px; font-weight:bold; margin:0; }
+    .header-box p { color:#ccc; font-size:14px; margin-top:6px; background:#333; padding:8px; border-radius:12px; }
     .task-box { background:#1f1f1f; border-radius:18px; padding:16px; margin-top:10px; border:2px solid #333; position:relative; }
     .task-title { font-size:20px; font-weight:bold; display:flex; align-items:center; gap:10px; }
     .task-desc { color:#aaa; margin-top:5px; }
-    .task-btn { margin-top:12px; width:100%; padding:12px; border:none; border-radius:14px; background:#ff2e2e; color:white; font-size:17px; font-weight:bold; }
+    .task-btn { margin-top:12px; width:100%; padding:12px; border:none; border-radius:14px; background:#ff2e2e; color:white; font-size:17px; font-weight:bold; cursor:pointer; }
     .done-line { position:absolute; right:12px; top:12px; background:#0f0; color:white; padding:4px 10px; border-radius:10px; font-weight:bold; display:flex; align-items:center; gap:6px; }
     .bottom-nav { position:fixed; bottom:0; left:0; width:100%; background:#1a1a1a; padding:12px 0; display:flex; justify-content:space-around; border-top:1px solid #333; }
-    .bottom-nav div { text-align:center; font-size:13px; color:#bbb; }
+    .bottom-nav div { text-align:center; font-size:13px; color:#bbb; cursor:pointer; }
     .active { color:#ff3d3d !important; }
 </style>
 </head>
@@ -27,10 +30,10 @@
     </div>
 
     <div class="card">
-        <div style="background:#1a1a1a; padding:16px; border-radius:18px; margin-bottom:18px;">
-    <div style="color:white;font-size:24px;font-weight:bold;">Tapşırıqlar</div>
-    <div style="color:#aaa; font-size:14px; margin-top:6px;">Sadə tapşırıqları yerinə yetirərək pul qazanın</div>
-</div>
+        <div class="header-box">
+            <h1>Tapşırıqlar</h1>
+            <p>Sadə tapşırıqları yerinə yetirərək pul qazanın</p>
+        </div>
 
         <div class="task-box" id="manatTask">
             <div class="task-title">🚀 Manat Plus Qrupu</div>
@@ -76,13 +79,14 @@ if(taskDone){
     box.innerHTML += `<div class='done-line'>+0.003 ₼ ✅</div>`;
 }
 
-btn.onclick = ()=>{
+btn.onclick = ()=> {
     window.location.href = "https://t.me/ads_reklam69";
     btn.textContent = "Geri sayım 5s";
     btn.disabled = true;
     let t = 5;
-    let timer = setInterval(()=>{
-        t--; btn.textContent = `Geri sayım ${t}s`;
+    let timer = setInterval(()=> {
+        t--; 
+        btn.textContent = `Geri sayım ${t}s`;
         if(t <= 0){
             clearInterval(timer);
             taskDone = true;
