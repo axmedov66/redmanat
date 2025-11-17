@@ -4,192 +4,188 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, user-scalable=no">
 <title>Tapşırıqlar</title>
+
 <style>
     body {
         margin: 0;
-        background: #0f0f0f;
-        font-family: Arial, sans-serif;
+        background: #0D0D0D;
+        font-family: "Poppins", Arial, sans-serif;
         color: white;
-        overscroll-behavior: none;
-        touch-action: manipulation;
     }
 
-    .container {
+    /* GLOBAL */
+    .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-top: 25px;
+        margin-bottom: 5px;
+        padding-left: 15px;
+    }
+
+    .sub-text {
+        font-size: 14px;
+        color: #8f8f8f;
+        padding-left: 15px;
+        margin-bottom: 10px;
+    }
+
+    /* BALANCE CARD */
+    .balance-card {
+        background: #141414;
+        margin: 18px;
+        padding: 22px;
+        border-radius: 22px;
+    }
+
+    .balance-value {
+        font-size: 38px;
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .balance-usd {
+        color: #c1c1c1;
+        margin-top: 5px;
+        font-size: 14px;
+    }
+
+    /* RED BUTTON */
+    .red-btn {
+        background: #E72424;
         padding: 15px;
-        padding-bottom: 120px;
-    }
-
-    h1 {
         text-align: center;
-        margin-bottom: 20px;
-        color: #ff3d3d;
+        border-radius: 16px;
+        margin: 18px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 0 15px rgba(255,0,0,0.3);
     }
 
+    /* TASK ITEM */
     .task-card {
-        background: #1a1a1a;
+        background: #141414;
+        margin: 14px;
+        padding: 16px;
         border-radius: 20px;
-        padding: 18px;
-        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
     }
 
-    .task-header {
+    .task-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: #1f1f1f;
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: center;
+        font-size: 26px;
+    }
+
+    .task-info {
+        flex: 1;
     }
 
     .task-title {
-        font-size: 18px;
-        font-weight: bold;
+        font-size: 17px;
+        font-weight: 700;
     }
 
     .task-desc {
-        color: #aaa;
-        margin-top: 5px;
+        color: #b3b3b3;
+        font-size: 14px;
+        margin-top: 2px;
     }
 
-    .progress {
-        width: 100%;
-        height: 8px;
-        background: #333;
-        border-radius: 10px;
-        margin: 10px 0;
+    .task-reward {
+        background: #D72626;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 13px;
+        margin-top: 6px;
+        width: fit-content;
     }
 
-    .progress-bar {
-        width: 0%;
-        height: 100%;
-        background: #ff2e2e;
-        border-radius: 10px;
-    }
-
-    .complete-btn {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 14px;
-        background: #ff2e2e;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
+    .start-btn {
+        background: #D72626;
+        padding: 12px 18px;
+        border-radius: 16px;
+        font-weight: 600;
         cursor: pointer;
-        margin-top: 8px;
     }
 
+    /* BOTTOM NAV */
     .bottom-nav {
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
-        background: #1a1a1a;
-        padding: 12px 0;
+        background: #111;
+        padding: 10px 0;
         display: flex;
         justify-content: space-around;
-        border-top: 1px solid #333;
+        border-top: 1px solid #2a2a2a;
     }
 
     .bottom-nav div {
+        color: #b3b3b3;
         text-align: center;
-        font-size: 13px;
-        color: #bbb;
+        font-size: 12px;
     }
 
     .active {
-        color: #ff3d3d !important;
+        color: #E72424 !important;
     }
 </style>
+
 </head>
 <body>
 
-<div class="container">
-    <h1>Tapşırıqlar</h1>
-
-    <!-- TASK EXAMPLE CARD -->
-    <div class="task-card" data-id="1">
-        <div class="task-header">
-            <div class="task-title">Gündəlik giriş</div>
-            <div class="task-points">+0.005 ₼</div>
-        </div>
-        <div class="task-desc">Hesabınıza daxil olun və mükafatı qazanın.</div>
-        <div class="progress">
-            <div class="progress-bar" id="progress1"></div>
-        </div>
-        <button class="complete-btn" onclick="completeTask(1)">Tamamla</button>
-    </div>
-
-    <div class="task-card" data-id="2">
-        <div class="task-header">
-            <div class="task-title">Reklam izləyin</div>
-            <div class="task-points">+0.001 ₼</div>
-        </div>
-        <div class="task-desc">1 reklam izləyərək balansınızı artırın.</div>
-        <div class="progress">
-            <div class="progress-bar" id="progress2"></div>
-        </div>
-        <button class="complete-btn" onclick="completeTask(2)">Tamamla</button>
-    </div>
-
-    <div class="task-card" data-id="3">
-        <div class="task-header">
-            <div class="task-title">Dost dəvət edin</div>
-            <div class="task-points">+0.010 ₼</div>
-        </div>
-        <div class="task-desc">Dostlarınızı dəvət edin və bonus qazanın.</div>
-        <div class="progress">
-            <div class="progress-bar" id="progress3"></div>
-        </div>
-        <button class="complete-btn" onclick="completeTask(3)">Tamamla</button>
-    </div>
+<!-- BALANCE CARD -->
+<div class="balance-card">
+    <div style="color:#b7b7b7;">Balansınız</div>
+    <div class="balance-value">0.021 ₼</div>
+    <div class="balance-usd">≈ $0.012</div>
 </div>
 
-<!-- BOTTOM MENU -->
+<!-- BUTTON -->
+<div class="red-btn">Tamamlanan Tapşırıqlara Bax →</div>
+
+<!-- SECTION TITLE -->
+<div class="section-title">Mövcud Tapşırıqlar</div>
+
+<!-- TASK 1 -->
+<div class="task-card">
+    <div class="task-icon">✈️</div>
+    <div class="task-info">
+        <div class="task-title">Manat Plus qrupu</div>
+        <div class="task-desc">Qatılın</div>
+        <div class="task-reward">+0.010 ₼</div>
+    </div>
+    <div class="start-btn">Başla</div>
+</div>
+
+<!-- TASK 2 -->
+<div class="task-card">
+    <div class="task-icon">🛡️</div>
+    <div class="task-info">
+        <div class="task-title">AznEarn</div>
+        <div class="task-desc">Yatırımsız pul qazandıran yeni reklam botu</div>
+        <div class="task-reward">+0.005 ₼</div>
+    </div>
+    <div class="start-btn">Başla</div>
+</div>
+
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
-    <div class="active" onclick="window.location.href='home.html'">🏠<br>Ev</div>
+    <div onclick="window.location.href='home.html'">🏠<br>Ev</div>
     <div class="active" onclick="window.location.href='tasks.html'">📝<br>Tapşırıqlar</div>
     <div onclick="window.location.href='leaders.html'">📈<br>Liderlər</div>
     <div onclick="window.location.href='friends.html'">👥<br>Dostlar</div>
     <div onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
 </div>
-
-<script>
-// TASK DATA STORAGE
-let tasks = {
-    1: {progress: 0, total: 1},
-    2: {progress: 0, total: 1},
-    3: {progress: 0, total: 1}
-};
-
-function completeTask(id) {
-    const task = tasks[id];
-    if (task.progress < task.total) {
-        task.progress += 1;
-        const percent = (task.progress / task.total) * 100;
-        document.getElementById("progress" + id).style.width = percent + "%";
-        alert("Tapşırıq tamamlandı! Balansınıza əlavə edildi.");
-        saveTasks();
-    } else {
-        alert("Bu tapşırıq artıq tamamlanıb.");
-    }
-}
-
-// LOCAL STORAGE
-function saveTasks() {
-    localStorage.setItem("tasksData", JSON.stringify(tasks));
-}
-
-function loadTasks() {
-    const saved = localStorage.getItem("tasksData");
-    if (saved) {
-        tasks = JSON.parse(saved);
-        for (let id in tasks) {
-            const percent = (tasks[id].progress / tasks[id].total) * 100;
-            document.getElementById("progress" + id).style.width = percent + "%";
-        }
-    }
-}
-
-loadTasks();
-</script>
 
 </body>
 </html>
