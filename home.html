@@ -17,7 +17,7 @@
 
     .container {
         padding: 15px;
-        padding-bottom: 120px;
+        padding-bottom: 150px;
     }
 
     .card {
@@ -113,6 +113,18 @@
         cursor: pointer;
     }
 
+    .download-btn {
+        width: 100%;
+        padding: 14px;
+        margin-top: 15px;
+        background: #444;
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
     .bottom-nav {
         position: fixed;
         bottom: 0;
@@ -161,7 +173,7 @@
         <div class="sub">≈ $0.000</div>
     </div>
 
-    <!-- AD CARD -->
+    <!-- ADS CARD -->
     <div class="card">
         <div class="row">
             <div>
@@ -188,9 +200,14 @@
         </div>
 
         <button class="watch-btn" id="watchBtn">▶ İndi izlə</button>
+
+        <!-- JSON DOWNLOAD BUTTON -->
+        <button class="download-btn" onclick="downloadUserJSON()">📁 JSON Faylını Yüklə</button>
     </div>
 
 </div>
+
+
 
 <!-- BOTTOM MENU -->
 <div class="bottom-nav">
@@ -200,7 +217,6 @@
     <div>👥<br>Dostlar</div>
     <div>💲<br>Çıxarış</div>
 </div>
-
 
 
 <!-- TELEGRAM API -->
@@ -250,7 +266,7 @@ if (localStorage.getItem("userData")) {
     document.getElementById("progressBar").style.width = percent + "%";
 }
 
-// JSON-a yazan funksiya
+// JSON save funksiyası
 function saveUserData() {
     const jsonData = {
         name: userName,
@@ -266,7 +282,32 @@ function saveUserData() {
 
 
 // ============================
-//   SDK REKLAM FUNKSIYASI
+// JSON DOWNLOAD FUNKSIYASI
+// ============================
+function downloadUserJSON() {
+    let data = localStorage.getItem("userData");
+    if (!data) {
+        alert("Hələ heç bir istifadəçi məlumatı yoxdur.");
+        return;
+    }
+
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "user.json";
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+
+
+// ============================
+// SDK REKLAM SYSTEM
 // ============================
 function loadSDK(callback) {
     const script = document.createElement("script");
@@ -276,6 +317,7 @@ function loadSDK(callback) {
     script.onload = callback;
     document.body.appendChild(script);
 }
+
 
 
 // ============================
@@ -330,18 +372,18 @@ watchBtn.addEventListener("click", () => {
 
 
 // ============================
-//   ANTI ZOOM / ANTI CHEAT
+// ANTI-ZOOM
 // ============================
 document.addEventListener("gesturestart", e => e.preventDefault());
 document.addEventListener("gesturechange", e => e.preventDefault());
 document.addEventListener("gestureend", e => e.preventDefault());
 
-document.addEventListener("wheel", function(e) {
+document.addEventListener("wheel", e => {
     if (e.ctrlKey) e.preventDefault();
 }, { passive: false });
 
-document.addEventListener('touchmove', function (event) {
-    if (event.scale !== 1) event.preventDefault();
+document.addEventListener("touchmove", e => {
+    if (e.scale !== 1) e.preventDefault();
 }, { passive: false });
 
 </script>
