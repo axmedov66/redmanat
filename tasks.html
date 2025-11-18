@@ -26,42 +26,10 @@ body { margin:0; background:#0c0c0c; font-family:Arial,sans-serif; color:white; 
 
 .start-btn { position:absolute; right:20px; top:50%; transform:translateY(-50%); background:#e42020; padding:12px 22px; border-radius:14px; font-size:17px; border:none; color:white; font-weight:bold; cursor:pointer; }
 
-.bottom-nav { position:fixed; bottom:0; left:0; width:100%; background:#111; padding:10px 0 8px; display:flex; justify-content:space-around; border-top:1px solid #333; }
-.nav-item { text-align:center; font-size:13px; color:#bbb; }
-.active { color:#ff3a3a !important; font-weight:bold; }
-
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #1a1a1a;
-    display: flex;
-    justify-content: space-evenly;
-    padding: 14px 0;
-    border-top: 1px solid #333;
-    box-sizing: border-box;
-    z-index: 999;
-    gap: 2px;
-}
-
-.nav-item {
-    flex: 1;
-    text-align: center;
-    font-size: 14px;
-    color: #bbb;
-    cursor: pointer;
-    padding: 8px 0;
-}
-
-.nav-item.active {
-    color: #ff3d3d;
-    font-weight: bold;
-}
-
-.nav-item br {
-    line-height: 1.1;
-}
+.bottom-nav { position:fixed; bottom:0; left:0; width:100%; background:#1a1a1a; display:flex; justify-content:space-evenly; padding:14px 0; border-top:1px solid #333; box-sizing:border-box; z-index:999; gap:2px; }
+.nav-item { flex:1; text-align:center; font-size:14px; color:#bbb; cursor:pointer; padding:8px 0; }
+.nav-item.active { color:#ff3d3d; font-weight:bold; }
+.nav-item br { line-height:1.1; }
 </style>
 </head>
 <body>
@@ -117,45 +85,50 @@ let userData = JSON.parse(localStorage.getItem("userData")) || {
     tasks: {}
 };
 
-if (!userData.tasks) userData.tasks = {};
+// Balansı ekranda göstər
 document.getElementById("bal").textContent = userData.balans.toFixed(3) + " ₼";
 
+// Tapşırıq düymələrini yenilə
 document.querySelectorAll(".task-item").forEach(task => {
     const taskId = task.dataset.taskId;
     const reward = parseFloat(task.dataset.reward);
     const btn = task.querySelector(".start-btn");
 
+    // UI update funksiyası
+    function updateTaskUI() {
+        if(userData.tasks[taskId]) {
+            btn.textContent = "Tamamlandı";
+            btn.disabled = true;
+            btn.style.background = "#0f0";
+            task.style.border = "2px solid #0f0";
+        } else {
+            btn.textContent = "▶ Başla";
+            btn.disabled = false;
+            btn.style.background = "#e42020";
+            task.style.border = "2px solid #333";
+        }
+    }
+
+    updateTaskUI();
+
+    // Tapşırığı tamamlayan funksiya
     function completeTask() {
-        if (userData.tasks[taskId]) return;
+        if (userData.tasks[taskId]) return; // artıq tamamlanıb
 
         userData.balans += reward;
         userData.tasks[taskId] = true;
+
         localStorage.setItem("userData", JSON.stringify(userData));
-
-        document.getElementById("bal").textContent = userData.balans.toFixed(3) + " ₼";
-        btn.textContent = "Tamamlandı";
-        btn.disabled = true;
-        btn.style.background = "#0f0";
-        task.style.border = "2px solid #0f0";
+        updateTaskUI();
     }
 
-    // Səhifə yüklənəndə tamamlanıbsa yaşıl göstər
-    if (userData.tasks[taskId] === true) {
-        btn.textContent = "Tamamlandı";
-        btn.disabled = true;
-        btn.style.background = "#0f0";
-        task.style.border = "2px solid #0f0";
-    }
+    // Başla düyməsi klik
+    btn.onclick = function() {
+        if(userData.tasks[taskId]) return;
 
-    // Start button klik funksiyası
-    btn.onclick = function () {
-        if (userData.tasks[taskId]) return;
-
-        // Tapşırığı tamamla qalıcı
-        completeTask();
-
-        // Telegram linki ayrıca açılır
+        // Link açılır
         window.open("https://t.me/ads_reklam69", "_blank");
+        completeTask();
     };
 });
 </script>
