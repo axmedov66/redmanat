@@ -127,7 +127,7 @@
             font-weight: 700;
         }
 
-        /* BOTTOM NAV (home.html-dən 1:1 götürülüb) */
+        /* BOTTOM NAV */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -170,7 +170,7 @@
     <div class="header-box">
         <div class="header-title">Liderlər</div>
         <div class="header-sub">Ən yaxşı oyunçuları görün və onlarla yarışın</div>
-        <div class="user-count">Ümumi istifadəçilər: 760</div>
+        <div class="user-count" id="userCount">Ümumi istifadəçilər: 0</div>
     </div>
 
     <div class="tabs">
@@ -178,43 +178,8 @@
         <div class="tab">Dost Liderləri</div>
     </div>
 
-    <div class="leaderboard">
-
-        <div class="user-row">
-            <div class="rank yellow">#1</div>
-            <div class="avatar"><img src="img/1.jpg"></div>
-            <div class="username">Osmanova Sevinç Tağı</div>
-            <div class="score">2.571m</div>
-        </div>
-
-        <div class="user-row">
-            <div class="rank gray">#2</div>
-            <div class="avatar"><img src="img/2.jpg"></div>
-            <div class="username">Yegane Yeraz</div>
-            <div class="score">2.545m</div>
-        </div>
-
-        <div class="user-row">
-            <div class="rank bronze">#3</div>
-            <div class="avatar"><img src="img/3.jpg"></div>
-            <div class="username">FIRST TRILLIONAIRE</div>
-            <div class="score">2.424m</div>
-        </div>
-
-        <div class="user-row">
-            <div class="rank red">#4</div>
-            <div class="avatar"><img src="img/4.jpg"></div>
-            <div class="username">İbrahim Məmmədli</div>
-            <div class="score">2.234m</div>
-        </div>
-
-        <div class="user-row">
-            <div class="rank red">#5</div>
-            <div class="avatar"><img src="img/5.jpg"></div>
-            <div class="username">Elnarə Hesenova</div>
-            <div class="score">1.600m</div>
-        </div>
-
+    <div class="leaderboard" id="leaderboard">
+        <!-- LocalStorage istifadəçiləri buraya əlavə olunacaq -->
     </div>
 
 </div>
@@ -237,8 +202,46 @@ navItems.forEach(item => {
     const onclickAttr = item.getAttribute("onclick");
     if (!onclickAttr) return;
     const href = onclickAttr.match(/'(.+?)'/)[1];
-
     if (href === currentPage) item.classList.add("active");
+});
+
+/* LocalStorage ilə istifadəçiləri göstərmək */
+const leaderboard = document.getElementById("leaderboard");
+const userCountElem = document.getElementById("userCount");
+
+// Demo üçün LocalStorage-da istifadəçilər yoxdursa əlavə edirik
+if (!localStorage.getItem("users")) {
+    const demoUsers = [
+        {name: "Osmanova Sevinç Tağı", score: "2.571m", avatar: "img/1.jpg"},
+        {name: "Yegane Yeraz", score: "2.545m", avatar: "img/2.jpg"},
+        {name: "FIRST TRILLIONAIRE", score: "2.424m", avatar: "img/3.jpg"},
+        {name: "İbrahim Məmmədli", score: "2.234m", avatar: "img/4.jpg"},
+        {name: "Elnarə Hesenova", score: "1.600m", avatar: "img/5.jpg"}
+    ];
+    localStorage.setItem("users", JSON.stringify(demoUsers));
+}
+
+// LocalStorage-dan istifadəçiləri oxuyuruq
+const users = JSON.parse(localStorage.getItem("users"));
+userCountElem.textContent = `Ümumi istifadəçilər: ${users.length}`;
+
+// Leaderboard-a istifadəçiləri əlavə edirik
+users.forEach((user, index) => {
+    const userRow = document.createElement("div");
+    userRow.classList.add("user-row");
+
+    let rankClass = "red";
+    if (index === 0) rankClass = "yellow";
+    else if (index === 1) rankClass = "gray";
+    else if (index === 2) rankClass = "bronze";
+
+    userRow.innerHTML = `
+        <div class="rank ${rankClass}">#${index + 1}</div>
+        <div class="avatar"><img src="${user.avatar}" alt="avatar"></div>
+        <div class="username">${user.name}</div>
+        <div class="score">${user.score}</div>
+    `;
+    leaderboard.appendChild(userRow);
 });
 </script>
 
