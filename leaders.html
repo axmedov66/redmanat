@@ -69,11 +69,11 @@ navItems.forEach(item => {
     if (href === currentPage) item.classList.add("active");
 });
 
-// LocalStorage-dakı köhnə botları və demo məlumatları təmizlə
+// Bütün demo və bot istifadəçiləri LocalStorage-dan sil
+localStorage.removeItem("users");
+
+// İstifadəçilər LocalStorage-dan götürülür
 let users = JSON.parse(localStorage.getItem("users")) || [];
-users = users.filter(u => u.name !== "Bot #1" && u.name !== "Bot #2" && u.name !== "Bot #3" && u.name !== "Bot #4" && u.name !== "Bot #5");
-// İndi LocalStorage-u yenilə
-localStorage.setItem("users", JSON.stringify(users));
 
 // Balansı "m" və "k" ilə olan string-dən rəqəmə çevirən funksiya
 function parseScore(scoreStr) {
