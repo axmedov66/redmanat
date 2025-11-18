@@ -1,118 +1,225 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no">
-<title>Liderlər</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Liderlər</title>
 
-<style>
-    body {
-        margin: 0;
-        background: #0f0f0f;
-        font-family: Arial, sans-serif;
-        color: white;
-    }
+    <style>
+        body {
+            margin: 0;
+            background: #0f0f0f;
+            font-family: Arial, sans-serif;
+            color: white;
+            overscroll-behavior: none;
+            touch-action: manipulation;
+        }
 
-    .container {
-        padding: 15px;
-        padding-bottom: 120px;
-    }
+        .container {
+            padding: 15px;
+            padding-bottom: 120px;
+        }
 
-    h2 {
-        margin: 0 0 10px 0;
-        font-size: 22px;
-        font-weight: bold;
-    }
+        /* HEADER */
+        .header-box {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    #userCount {
-        color: #ccc;
-        margin-bottom: 15px;
-        font-size: 14px;
-    }
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+        }
 
-    .user-row {
-        background: #1a1a1a;
-        padding: 14px;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        margin-bottom: 12px;
-        gap: 15px;
-    }
+        .header-sub {
+            color: #b4b4b4;
+            margin-top: 6px;
+            font-size: 14px;
+        }
 
-    .rank {
-        width: 45px;
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-    }
+        .user-count {
+            background: #ff2e2e;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 50px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
 
-    .yellow { color: gold; }
-    .gray { color: silver; }
-    .bronze { color: #cd7f32; }
-    .red { color: #ff3d3d; }
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
 
-    .avatar img {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid #ff2e2e;
-    }
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 15px;
+            background: #181818;
+            border: 1px solid #333;
+        }
 
-    .username {
-        flex: 1;
-        font-size: 16px;
-    }
+        .tab.active {
+            background: #ff2e2e;
+            border: none;
+        }
 
-    .score {
-        font-size: 17px;
-        color: #ff3d3d;
-        font-weight: bold;
-    }
+        /* LEADERBOARD */
+        .leaderboard {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 20px;
+        }
 
-    /* ===== BOTTOM NAV ===== */
-    .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: #1a1a1a;
-        display: flex;
-        justify-content: space-evenly;
-        padding: 14px 0;
-        border-top: 1px solid #333;
-        z-index: 999;
-        gap: 2px;
-    }
+        .user-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #2c2c2c;
+        }
 
-    .nav-item {
-        flex: 1;
-        text-align: center;
-        font-size: 14px;
-        color: #bbb;
-        cursor: pointer;
-        padding: 8px 0;
-    }
+        .user-row:last-child {
+            border-bottom: none;
+        }
 
-    .nav-item.active {
-        color: #ff3d3d;
-        font-weight: bold;
-    }
-</style>
+        .rank {
+            font-size: 20px;
+            width: 40px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .rank.yellow { color: #ffd700; }
+        .rank.gray { color: #c9c9c9; }
+        .rank.bronze { color: #e2862b; }
+        .rank.red { color: #ff3d3d; }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .score {
+            color: #ff3d3d;
+            font-weight: 700;
+        }
+
+        /* BOTTOM NAV (home.html-dən 1:1 götürülüb) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: space-evenly;
+            padding: 14px 0;
+            border-top: 1px solid #333;
+            box-sizing: border-box;
+            z-index: 999;
+            gap: 2px;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            color: #bbb;
+            cursor: pointer;
+            padding: 8px 0;
+        }
+
+        .nav-item.active {
+            color: #ff3d3d;
+            font-weight: bold;
+        }
+
+        .nav-item br {
+            line-height: 1.1;
+        }
+    </style>
 </head>
+
 <body>
 
 <div class="container">
 
-    <h2>📈 Liderlər</h2>
-    <div id="userCount">Ümumi istifadəçilər: 0</div>
+    <div class="header-box">
+        <div class="header-title">Liderlər</div>
+        <div class="header-sub">Ən yaxşı oyunçuları görün və onlarla yarışın</div>
+        <div class="user-count">Ümumi istifadəçilər: 760</div>
+    </div>
 
-    <div id="leaderboard"></div>
+    <div class="tabs">
+        <div class="tab active">Balans Liderləri</div>
+        <div class="tab">Dost Liderləri</div>
+    </div>
+
+    <div class="leaderboard">
+
+        <div class="user-row">
+            <div class="rank yellow">#1</div>
+            <div class="avatar"><img src="img/1.jpg"></div>
+            <div class="username">Osmanova Sevinç Tağı</div>
+            <div class="score">2.571m</div>
+        </div>
+
+        <div class="user-row">
+            <div class="rank gray">#2</div>
+            <div class="avatar"><img src="img/2.jpg"></div>
+            <div class="username">Yegane Yeraz</div>
+            <div class="score">2.545m</div>
+        </div>
+
+        <div class="user-row">
+            <div class="rank bronze">#3</div>
+            <div class="avatar"><img src="img/3.jpg"></div>
+            <div class="username">FIRST TRILLIONAIRE</div>
+            <div class="score">2.424m</div>
+        </div>
+
+        <div class="user-row">
+            <div class="rank red">#4</div>
+            <div class="avatar"><img src="img/4.jpg"></div>
+            <div class="username">İbrahim Məmmədli</div>
+            <div class="score">2.234m</div>
+        </div>
+
+        <div class="user-row">
+            <div class="rank red">#5</div>
+            <div class="avatar"><img src="img/5.jpg"></div>
+            <div class="username">Elnarə Hesenova</div>
+            <div class="score">1.600m</div>
+        </div>
+
+    </div>
 
 </div>
 
-<!-- BOTTOM MENU -->
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
     <div class="nav-item" onclick="window.location.href='home.html'">🏠<br>Ev</div>
     <div class="nav-item" onclick="window.location.href='tasks.html'">📝<br>Tapşırıqlar</div>
@@ -121,67 +228,17 @@
     <div class="nav-item" onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
 </div>
 
-
 <script>
-/* ------------------------------------
-   REAL LOCALSTORAGE USER LIST
-   ------------------------------------ */
-
-let users = JSON.parse(localStorage.getItem("users")) || [];
-
-// Ümumi istifadəçi sayı
-document.getElementById("userCount").innerText =
-    "Ümumi istifadəçilər: " + users.length;
-
-// Əgər user yoxdursa boş mesaj
-if (users.length === 0) {
-    document.getElementById("leaderboard").innerHTML =
-        `<div style="text-align:center; padding:20px; color:#bbb;">
-            Hələ ki istifadəçi yoxdur...
-        </div>`;
-} else {
-
-    // Balansa görə sırala
-    users.sort((a, b) => b.balance - a.balance);
-
-    // Rank rəngi funksiyası
-    function rankColor(rank) {
-        if (rank === 1) return "yellow";
-        if (rank === 2) return "gray";
-        if (rank === 3) return "bronze";
-        return "red";
-    }
-
-    let html = "";
-
-    users.forEach((user, index) => {
-        const rank = index + 1;
-
-        html += `
-            <div class="user-row">
-                <div class="rank ${rankColor(rank)}">#${rank}</div>
-                <div class="avatar"><img src="${user.photo}"></div>
-                <div class="username">${user.name}</div>
-                <div class="score">${user.balance.toFixed(3)}m</div>
-            </div>
-        `;
-    });
-
-    document.getElementById("leaderboard").innerHTML = html;
-}
-
-
-/* ------------------------------------
-   BOTTOM NAV ACTIVE BUTTON
-   ------------------------------------ */
+/* Alt menyuda aktiv düyməni seçir */
 const navItems = document.querySelectorAll(".nav-item");
 const currentPage = window.location.pathname.split("/").pop();
 
 navItems.forEach(item => {
-    const href = item.getAttribute("onclick").match(/'(.+?)'/)[1];
-    if (href === currentPage) {
-        item.classList.add("active");
-    }
+    const onclickAttr = item.getAttribute("onclick");
+    if (!onclickAttr) return;
+    const href = onclickAttr.match(/'(.+?)'/)[1];
+
+    if (href === currentPage) item.classList.add("active");
 });
 </script>
 
