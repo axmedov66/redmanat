@@ -79,9 +79,23 @@ if (!localStorage.getItem("users")) {
 }
 
 // İstifadəçiləri LocalStorage-dan oxu
-const users = JSON.parse(localStorage.getItem("users"));
+let users = JSON.parse(localStorage.getItem("users"));
+
+// Balansı "m" və "k" ilə olan string-dən rəqəmə çevirən funksiya
+function parseScore(scoreStr) {
+    if (!scoreStr) return 0;
+    scoreStr = scoreStr.toLowerCase().replace(/,/g, "");
+    if (scoreStr.endsWith("m")) return parseFloat(scoreStr) * 1000;
+    if (scoreStr.endsWith("k")) return parseFloat(scoreStr);
+    return parseFloat(scoreStr);
+}
+
+// Sıralama: ən yüksək balansa görə
+users.sort((a, b) => parseScore(b.score) - parseScore(a.score));
+
 const leaderboard = document.getElementById("leaderboard");
 document.getElementById("userCount").textContent = `Ümumi istifadəçilər: ${users.length}`;
+leaderboard.innerHTML = "";
 
 // Leaderboard-a əlavə et
 users.forEach((user, index)=>{
