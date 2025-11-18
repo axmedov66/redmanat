@@ -20,29 +20,31 @@
 
     h2 {
         margin: 0 0 10px 0;
+        font-size: 22px;
+        font-weight: bold;
     }
 
     #userCount {
-        font-size: 14px;
         color: #ccc;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+        font-size: 14px;
     }
 
     .user-row {
+        background: #1a1a1a;
+        padding: 14px;
+        border-radius: 20px;
         display: flex;
         align-items: center;
-        background: #1a1a1a;
-        padding: 12px;
-        border-radius: 15px;
-        margin-bottom: 10px;
-        gap: 12px;
+        margin-bottom: 12px;
+        gap: 15px;
     }
 
     .rank {
-        font-size: 20px;
-        font-weight: bold;
         width: 45px;
         text-align: center;
+        font-size: 22px;
+        font-weight: bold;
     }
 
     .yellow { color: gold; }
@@ -51,23 +53,22 @@
     .red { color: #ff3d3d; }
 
     .avatar img {
-        width: 55px;
-        height: 55px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #ff3d3d;
+        border: 3px solid #ff2e2e;
     }
 
     .username {
         flex: 1;
         font-size: 16px;
-        font-weight: bold;
     }
 
     .score {
-        font-size: 16px;
-        font-weight: bold;
+        font-size: 17px;
         color: #ff3d3d;
+        font-weight: bold;
     }
 
     /* ===== BOTTOM NAV ===== */
@@ -98,21 +99,20 @@
         color: #ff3d3d;
         font-weight: bold;
     }
-
 </style>
 </head>
 <body>
 
 <div class="container">
 
-    <h2>🏆 Liderlər</h2>
+    <h2>📈 Liderlər</h2>
     <div id="userCount">Ümumi istifadəçilər: 0</div>
 
     <div id="leaderboard"></div>
 
 </div>
 
-<!-- BOTTOM NAVIGATION -->
+<!-- BOTTOM MENU -->
 <div class="bottom-nav">
     <div class="nav-item" onclick="window.location.href='home.html'">🏠<br>Ev</div>
     <div class="nav-item" onclick="window.location.href='tasks.html'">📝<br>Tapşırıqlar</div>
@@ -124,17 +124,16 @@
 
 <script>
 /* ------------------------------------
-   LOCALSTORAGE USER SYSTEM (REAL USERS)
+   REAL LOCALSTORAGE USER LIST
    ------------------------------------ */
 
-// Oxu: bütün real istifadəçilər burada saxlanır
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
 // Ümumi istifadəçi sayı
 document.getElementById("userCount").innerText =
     "Ümumi istifadəçilər: " + users.length;
 
-// Əgər istifadəçi yoxdursa — mesaj göstər
+// Əgər user yoxdursa boş mesaj
 if (users.length === 0) {
     document.getElementById("leaderboard").innerHTML =
         `<div style="text-align:center; padding:20px; color:#bbb;">
@@ -142,10 +141,10 @@ if (users.length === 0) {
         </div>`;
 } else {
 
-    // Böyükdən kiçiyə sırala
+    // Balansa görə sırala
     users.sort((a, b) => b.balance - a.balance);
 
-    // Rank rəngləri
+    // Rank rəngi funksiyası
     function rankColor(rank) {
         if (rank === 1) return "yellow";
         if (rank === 2) return "gray";
@@ -172,9 +171,9 @@ if (users.length === 0) {
 }
 
 
-/* ---------------------------
-   BOTTOM MENU ACTIVE BUTTON
-   --------------------------- */
+/* ------------------------------------
+   BOTTOM NAV ACTIVE BUTTON
+   ------------------------------------ */
 const navItems = document.querySelectorAll(".nav-item");
 const currentPage = window.location.pathname.split("/").pop();
 
