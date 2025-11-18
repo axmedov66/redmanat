@@ -209,17 +209,18 @@ navItems.forEach(item => {
 const leaderboard = document.getElementById("leaderboard");
 const userCountElem = document.getElementById("userCount");
 
-// Demo üçün LocalStorage-da istifadəçilər yoxdursa əlavə edirik
+// LocalStorage-da istifadəçilər yoxdursa, Bot əlavə edirik
 if (!localStorage.getItem("users")) {
-    const demoUsers = [
-        {name: "Osmanova Sevinç Tağı", score: "2.571m", avatar: "img/1.jpg"},
-        {name: "Yegane Yeraz", score: "2.545m", avatar: "img/2.jpg"},
-        {name: "FIRST TRILLIONAIRE", score: "2.424m", avatar: "img/3.jpg"},
-        {name: "İbrahim Məmmədli", score: "2.234m", avatar: "img/4.jpg"},
-        {name: "Elnarə Hesenova", score: "1.600m", avatar: "img/5.jpg"}
+    const botUsers = [
+        {name: "Bot #1", score: "0", avatar: "img/default.jpg"},
+        {name: "Bot #2", score: "0", avatar: "img/default.jpg"},
+        {name: "Bot #3", score: "0", avatar: "img/default.jpg"},
+        {name: "Bot #4", score: "0", avatar: "img/default.jpg"},
+        {name: "Bot #5", score: "0", avatar: "img/default.jpg"}
     ];
-    localStorage.setItem("users", JSON.stringify(demoUsers));
+    localStorage.setItem("users", JSON.stringify(botUsers));
 }
+✅ İzahı:
 
 // LocalStorage-dan istifadəçiləri oxuyuruq
 const users = JSON.parse(localStorage.getItem("users"));
