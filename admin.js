@@ -1,6 +1,5 @@
 const API_URL = 'http://localhost:3000/api/users';
 
-// Paneli yenilə
 async function updatePanel() {
     try {
         const res = await fetch(API_URL);
@@ -8,7 +7,6 @@ async function updatePanel() {
 
         document.getElementById('userCount').innerText = users.length;
 
-        // Gündəlik reklam sayı cəmi
         const totalAds = users.reduce((sum, u) => sum + (u.ads || 0), 0);
         document.getElementById('adCount').innerText = totalAds;
 
@@ -25,7 +23,6 @@ async function updatePanel() {
     }
 }
 
-// İstifadəçi axtar
 async function searchUser() {
     const query = document.getElementById('searchUser').value.toLowerCase();
     const res = await fetch(API_URL);
@@ -41,7 +38,6 @@ async function searchUser() {
          });
 }
 
-// Reklamları sıfırla
 async function resetAds() {
     const res = await fetch(API_URL);
     const users = await res.json();
@@ -49,11 +45,10 @@ async function resetAds() {
         await fetch(`${API_URL}/${u.id}/ad`, { 
             method: 'POST', 
             headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ reset: true }) // server tərəfdə reset logic
+            body: JSON.stringify({ reset: true })
         });
     }
     updatePanel();
 }
 
-// Paneli ilk dəfə yükləyəndə
 updatePanel();
