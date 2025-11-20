@@ -15,6 +15,7 @@
 
     .container{
         padding:20px;
+        padding-bottom:120px; /* alt menyu ilə toqquşmasın */
     }
 
     .card{
@@ -103,23 +104,41 @@
         box-shadow:0 0 10px rgba(0,0,0,0.4);
     }
 
-    /* Bottom nav */
-    .bottom-nav{
-        position:fixed;
-        bottom:0;
-        left:0;
-        right:0;
-        background:#0d0d0d;
-        display:flex;
-        justify-content:space-around;
-        padding:12px 0;
-        border-top:1px solid #222;
+
+    /* ====================================================
+       HOME.HTML DİZAYNINA 100% UYĞUN ALT MENYU
+       ==================================================== */
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #1a1a1a;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 14px 0;
+        border-top: 1px solid #333;
+        box-sizing: border-box;
+        z-index: 999;
+        gap: 2px;
     }
 
-    .nav-item{
-        text-align:center;
-        color:#ccc;
-        font-size:13px;
+    .nav-item {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+        color: #bbb;
+        cursor: pointer;
+        padding: 8px 0;
+    }
+
+    .nav-item.active {
+        color: #ff3d3d;
+        font-weight: bold;
+    }
+
+    .nav-item br {
+        line-height: 1.1;
     }
 
 </style>
@@ -144,32 +163,11 @@
         <div style="margin-top:18px; font-weight:bold;">Ödəniş üsulunu seçin</div>
 
         <div class="method-grid">
-
-            <div class="method">
-                <img src="/mnt/data/photo_5257995931699842431_w.jpg">
-                M10
-            </div>
-
-            <div class="method">
-                <img src="/mnt/data/photo_5257995931699842431_w.jpg">
-                Bank
-            </div>
-
-            <div class="method">
-                <img src="/mnt/data/photo_5257995931699842432_w.jpg">
-                Nar
-            </div>
-
-            <div class="method">
-                <img src="/mnt/data/photo_5257995931699842432_w.jpg">
-                Bakcell
-            </div>
-
-            <div class="method">
-                <img src="/mnt/data/photo_5257995931699842432_w.jpg">
-                Azercell
-            </div>
-
+            <div class="method"><img src="/mnt/data/photo_5257995931699842431_w.jpg">M10</div>
+            <div class="method"><img src="/mnt/data/photo_5257995931699842431_w.jpg">Bank</div>
+            <div class="method"><img src="/mnt/data/photo_5257995931699842432_w.jpg">Nar</div>
+            <div class="method"><img src="/mnt/data/photo_5257995931699842432_w.jpg">Bakcell</div>
+            <div class="method"><img src="/mnt/data/photo_5257995931699842432_w.jpg">Azercell</div>
         </div>
 
         <div class="green-box">
@@ -193,7 +191,7 @@
 <div class="bottom-nav">
     <div class="nav-item" onclick="window.location.href='home.html'">🏠<br>Ev</div>
     <div class="nav-item" onclick="window.location.href='tasks.html'">📝<br>Tapşırıqlar</div>
-    <div class="nav-item" onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
+    <div class="nav-item active" onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
 </div>
 
 </body>
