@@ -153,7 +153,7 @@
     <!-- Balans -->
     <div class="card">
         <div class="sub">Mövcud balans</div>
-        <div class="balance" id="balanceValue">10.000 ₼</div>
+        <div class="balance" id="balanceValue">0.000 ₼</div>
         <div class="sub">≈ $0.000</div>
     </div>
 
@@ -201,7 +201,17 @@
 </div>
 
 <script>
-let balance = 10; // test üçün default balans
+// Balansı LocalStorage-dan al
+let balance = 0;
+if (localStorage.getItem("userData")) {
+    const saved = JSON.parse(localStorage.getItem("userData"));
+    balance = saved.balans ?? 0;
+} else {
+    balance = 10; // default test balans
+    localStorage.setItem("userData", JSON.stringify({balans: balance}));
+}
+document.getElementById("balanceValue").textContent = balance.toFixed(3) + " ₼";
+
 let selectedMethod = null;
 
 const methods = document.querySelectorAll(".method");
@@ -212,12 +222,10 @@ const sendBtn = document.getElementById("sendBtn");
 
 methods.forEach(method => {
     method.addEventListener("click", () => {
-        // remove previous selection
         methods.forEach(m => m.classList.remove("selected"));
         method.classList.add("selected");
         selectedMethod = method;
 
-        // create dynamic input
         dynamicContainer.innerHTML = "";
         const inputBox = document.createElement("div");
         inputBox.classList.add("input-box");
@@ -251,27 +259,25 @@ sendBtn.addEventListener("click", () => {
         return;
     }
 
-    // update balance
+    // balansı çıxar və LocalStorage-u güncəllə
     balance -= amount;
+    localStorage.setItem("userData", JSON.stringify({balans: balance}));
     document.getElementById("balanceValue").textContent = balance.toFixed(3) + " ₼";
 
-    // add to history
+    // tarixçəyə əlavə et
     const historyItem = document.createElement("div");
     historyItem.style.marginTop = "10px";
     historyItem.textContent = `${selectedMethod.textContent} üçün çıxarış: ${amount.toFixed(2)} ₼ — Gözləmədə...`;
     historyList.appendChild(historyItem);
 
-    // simulate success after 2 hours (for demo use 10 sec)
-    if (balance >= 3) {
-        setTimeout(() => {
+    // demo üçün 10 saniyə sonra uğurlu/uğursuz mesaj
+    setTimeout(() => {
+        if (balance >= 3) {
             historyItem.textContent = `${selectedMethod.textContent} üçün çıxarış: ${amount.toFixed(2)} ₼ — Uğurlu ✅`;
-        }, 10000); // demo üçün 10 saniyə əvəzinə 2 saat ola bilər: 7200000
-    } else {
-        // balans azdırsa 10 saniyə sonra uğursuz
-        setTimeout(() => {
+        } else {
             historyItem.textContent = `${selectedMethod.textContent} üçün çıxarış: ${amount.toFixed(2)} ₼ — Uğursuz ❌`;
-        }, 10000);
-    }
+        }
+    }, 10000); // demo üçün 10 saniyə (realda 2 saat ola bilər)
 
     // reset inputs
     withdrawInput.value = "";
