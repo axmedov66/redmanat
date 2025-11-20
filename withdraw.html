@@ -15,7 +15,7 @@
 
     .container{
         padding:20px;
-        padding-bottom:120px; /* alt menyu ilə toqquşmasın */
+        padding-bottom:120px;
     }
 
     .card{
@@ -36,15 +36,26 @@
         font-size:14px;
     }
 
+    /* INPUT BOX */
     .input-box{
         margin-top:12px;
         background:#111;
         border-radius:14px;
         padding:14px;
         font-size:16px;
-        color:#888;
+        color:#ccc;
     }
 
+    .input-real{
+        width:100%;
+        background:none;
+        border:none;
+        outline:none;
+        font-size:18px;
+        color:white;
+    }
+
+    /* PAYMENT METHODS */
     .method-grid{
         display:grid;
         grid-template-columns: repeat(2, 1fr);
@@ -66,10 +77,10 @@
         border-color:#444;
     }
 
-    .method img{
-        width:34px;
-        height:34px;
-        margin-bottom:6px;
+    .emoji{
+        font-size:32px;
+        display:block;
+        margin-bottom:4px;
     }
 
     .green-box{
@@ -104,10 +115,7 @@
         box-shadow:0 0 10px rgba(0,0,0,0.4);
     }
 
-
-    /* ====================================================
-       HOME.HTML DİZAYNINA 100% UYĞUN ALT MENYU
-       ==================================================== */
+    /* BOTTOM NAV */
     .bottom-nav {
         position: fixed;
         bottom: 0;
@@ -118,7 +126,6 @@
         justify-content: space-evenly;
         padding: 14px 0;
         border-top: 1px solid #333;
-        box-sizing: border-box;
         z-index: 999;
         gap: 2px;
     }
@@ -137,37 +144,41 @@
         font-weight: bold;
     }
 
-    .nav-item br {
-        line-height: 1.1;
-    }
-
 </style>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- Mövcud balans -->
+    <!-- Balans -->
     <div class="card">
         <div class="sub">Mövcud balans</div>
         <div class="balance" id="balanceValue">0.000 ₼</div>
         <div class="sub">≈ $0.000</div>
     </div>
 
-    <!-- Çıxarış məbləği -->
+    <!-- Çıxarış -->
     <div class="card">
         <div class="sub">Çıxarış məbləği</div>
 
-        <div class="input-box">Minimum çıxarış: 3 ₼</div>
+        <div class="input-box">
+            <input type="number" id="withdrawAmount" class="input-real" placeholder="Minimum çıxarış: 3 ₼" min="3">
+        </div>
 
         <div style="margin-top:18px; font-weight:bold;">Ödəniş üsulunu seçin</div>
 
         <div class="method-grid">
-            <div class="method"><img src="/mnt/data/photo_5257995931699842431_w.jpg">M10</div>
-            <div class="method"><img src="/mnt/data/photo_5257995931699842431_w.jpg">Bank</div>
-            <div class="method"><img src="/mnt/data/photo_5257995931699842432_w.jpg">Nar</div>
-            <div class="method"><img src="/mnt/data/photo_5257995931699842432_w.jpg">Bakcell</div>
-            <div class="method"><img src="/mnt/data/photo_5257995931699842432_w.jpg">Azercell</div>
+
+            <div class="method"><span class="emoji">🔟</span>M10</div>
+
+            <div class="method"><span class="emoji">🏦</span>Bank</div>
+
+            <div class="method"><span class="emoji">📱</span>Nar</div>
+
+            <div class="method"><span class="emoji">📶</span>Bakcell</div>
+
+            <div class="method"><span class="emoji">📡</span>Azercell</div>
+
         </div>
 
         <div class="green-box">
@@ -179,7 +190,7 @@
 
     </div>
 
-    <!-- Çıxarış tarixçəsi -->
+    <!-- Tarixçə -->
     <div class="history-card">
         <div style="font-weight:bold; font-size:20px;">Çıxarış tarixçəsi</div>
         <div style="opacity:0.6; margin-top:10px;">Çıxarış tarixçəsi yoxdur</div>
@@ -194,7 +205,7 @@
     <div class="nav-item active" onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
 </div>
 
-<!-- LOCAL STORAGE BALANS -->
+<!-- LocalStorage Balans Script -->
 <script>
 let balance = 0;
 
