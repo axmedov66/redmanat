@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Çıxarış</title>
+
+<style>
+    body{
+        margin:0;
+        background:#0d0d0d;
+        font-family: Arial, sans-serif;
+        color:white;
+    }
+
+    .container{
+        padding:20px;
+    }
+
+    .card{
+        background:#1a1a1a;
+        padding:20px;
+        border-radius:18px;
+        margin-bottom:18px;
+        box-shadow:0 0 10px rgba(0,0,0,0.4);
+    }
+
+    .balance{
+        font-size:32px;
+        font-weight:bold;
+    }
+
+    .sub{
+        opacity:0.6;
+        font-size:14px;
+    }
+
+    .input-box{
+        margin-top:12px;
+        background:#111;
+        border-radius:14px;
+        padding:14px;
+        font-size:16px;
+        color:#888;
+    }
+
+    .method-grid{
+        display:grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap:12px;
+        margin-top:15px;
+    }
+
+    .method{
+        background:#111;
+        padding:18px;
+        border-radius:16px;
+        text-align:center;
+        font-size:18px;
+        cursor:pointer;
+        border:2px solid transparent;
+    }
+
+    .method:hover{
+        border-color:#444;
+    }
+
+    .method img{
+        width:34px;
+        height:34px;
+        margin-bottom:6px;
+    }
+
+    .green-box{
+        background:#0f2c0f;
+        padding:16px;
+        border-radius:16px;
+        margin-top:15px;
+        line-height:24px;
+    }
+
+    .bold{
+        font-weight:bold;
+    }
+
+    .btn{
+        margin-top:18px;
+        background:#d82323;
+        padding:16px;
+        border-radius:18px;
+        text-align:center;
+        font-size:20px;
+        font-weight:bold;
+        cursor:pointer;
+    }
+
+    .history-card{
+        background:#1a1a1a;
+        padding:20px;
+        margin-top:25px;
+        border-radius:18px;
+        text-align:center;
+        box-shadow:0 0 10px rgba(0,0,0,0.4);
+    }
+
+    /* Bottom nav */
+    .bottom-nav{
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        background:#0d0d0d;
+        display:flex;
+        justify-content:space-around;
+        padding:12px 0;
+        border-top:1px solid #222;
+    }
+
+    .nav-item{
+        text-align:center;
+        color:#ccc;
+        font-size:13px;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Mövcud balans -->
+    <div class="card">
+        <div class="sub">Mövcud balans</div>
+        <div class="balance">0.021 ₼</div>
+        <div class="sub">≈ $0.012</div>
+    </div>
+
+    <!-- Çıxarış məbləği -->
+    <div class="card">
+        <div class="sub">Çıxarış məbləği</div>
+
+        <div class="input-box">Minimum çıxarış: 3 ₼</div>
+
+        <div style="margin-top:18px; font-weight:bold;">Ödəniş üsulunu seçin</div>
+
+        <div class="method-grid">
+
+            <div class="method">
+                <img src="/mnt/data/photo_5257995931699842431_w.jpg">
+                M10
+            </div>
+
+            <div class="method">
+                <img src="/mnt/data/photo_5257995931699842431_w.jpg">
+                Bank
+            </div>
+
+            <div class="method">
+                <img src="/mnt/data/photo_5257995931699842432_w.jpg">
+                Nar
+            </div>
+
+            <div class="method">
+                <img src="/mnt/data/photo_5257995931699842432_w.jpg">
+                Bakcell
+            </div>
+
+            <div class="method">
+                <img src="/mnt/data/photo_5257995931699842432_w.jpg">
+                Azercell
+            </div>
+
+        </div>
+
+        <div class="green-box">
+            Komissiya: <span class="bold">0%</span><br>
+            Emal müddəti: <span class="bold">24 saat ərzində</span>
+        </div>
+
+        <div class="btn">Sorğu göndər</div>
+
+    </div>
+
+    <!-- Çıxarış tarixçəsi -->
+    <div class="history-card">
+        <div style="font-weight:bold; font-size:20px;">Çıxarış tarixçəsi</div>
+        <div style="opacity:0.6; margin-top:10px;">Çıxarış tarixçəsi yoxdur</div>
+    </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+    <div class="nav-item">Ev</div>
+    <div class="nav-item">Tapşırıqlar</div>
+    <div class="nav-item">Liderlər</div>
+    <div class="nav-item">Dostlar</div>
+    <div class="nav-item" style="color:#ff3b3b;">Çıxarış</div>
+</div>
+
+</body>
+</html>
