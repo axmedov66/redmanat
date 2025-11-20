@@ -315,8 +315,23 @@ watchBtn.addEventListener("click", () => {
 
 
 
+// =============================
+// 🔥 ADMIN SIFIRLAMA DÜYMƏSİ
+// =============================
+if (localStorage.getItem("resetAds") === "1") {
+
+    watchedAds = 0;
+    document.getElementById("watchedCount").textContent = 0;
+    document.getElementById("progressBar").style.width = "0%";
+
+    localStorage.removeItem("resetAds");
+    saveUserData();
+}
+
+
+
 // =====================================================
-// 🔥 GÜNDƏ BİR DƏFƏ AZƏRBAYCAN SAATLA 00:00-DA RESET
+// 🔥 GÜNDƏ 1 DƏFƏ — AZƏRBAYCAN SAATLA 00:00 RESET
 // =====================================================
 function resetDailyAtMidnight() {
     const now = new Date();
@@ -339,9 +354,8 @@ function resetDailyAtMidnight() {
 setInterval(resetDailyAtMidnight, 1000);
 
 
-
 // ============================
-// ANTI ZOOM / ANTI CHEAT
+// ANTI ZOOM
 // ============================
 document.addEventListener("gesturestart", e => e.preventDefault());
 document.addEventListener("gesturechange", e => e.preventDefault());
@@ -355,8 +369,9 @@ document.addEventListener('touchmove', function (event) {
     if (event.scale !== 1) event.preventDefault();
 }, { passive: false });
 
+
 // ============================
-// BOTTOM NAV AKTİV DÜYMƏ SƏHİFƏYƏ GÖRƏ
+// NAVİGASİYA
 // ============================
 const navItems = document.querySelectorAll(".nav-item");
 const currentPage = window.location.pathname.split("/").pop();
