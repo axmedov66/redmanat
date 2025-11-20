@@ -315,18 +315,18 @@ watchBtn.addEventListener("click", () => {
 
 
 
-// 🔥 Admin tərəfindən sıfırlamanı aşkar et
+// Admin tərəfindən reklam sıfırlanmasını aşkar et
 window.addEventListener("focus", () => {
     if (localStorage.getItem("resetAds") === "1") {
         watchedAds = 0;
         document.getElementById("watchedCount").textContent = 0;
         document.getElementById("progressBar").style.width = "0%";
 
+        // balans toxunulmur
         saveUserData();
 
         localStorage.removeItem("resetAds"); // flag silinir
     }
-
 
 
 // =====================================================
