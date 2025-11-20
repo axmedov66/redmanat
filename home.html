@@ -313,35 +313,32 @@ watchBtn.addEventListener("click", () => {
     });
 });
 
-// ============================
-// HƏR 24 SAATDA İZLƏNƏN REKLAMLARI SIFIRLA
-// ============================
-const RESET_INTERVAL = 24 * 60 * 60 * 1000; // 24 saat
 
-// Səhifə yüklənəndə yoxla
-const lastReset = localStorage.getItem("lastReset") ? parseInt(localStorage.getItem("lastReset")) : 0;
-const now = Date.now();
 
-if (now - lastReset >= RESET_INTERVAL) {
-    watchedAds = 0;
-    document.getElementById("watchedCount").textContent = watchedAds;
-    let percent = (watchedAds / totalAds) * 100;
-    document.getElementById("progressBar").style.width = percent + "%";
-    localStorage.setItem("lastReset", now);
-    saveUserData();
+// =====================================================
+// 🔥 GÜNDƏ BİR DƏFƏ AZƏRBAYCAN SAATLA 00:00-DA RESET
+// =====================================================
+function resetDailyAtMidnight() {
+    const now = new Date();
+    const bakuTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Baku" }));
+
+    let h = bakuTime.getHours();
+    let m = bakuTime.getMinutes();
+    let s = bakuTime.getSeconds();
+
+    if (h === 0 && m === 0 && s <= 2) {
+        watchedAds = 0;
+        document.getElementById("watchedCount").textContent = 0;
+        document.getElementById("progressBar").style.width = "0%";
+
+        localStorage.setItem("lastReset", Date.now());
+        saveUserData();
+    }
 }
 
-// Hər 24 saata bir interval
-setInterval(() => {
-    watchedAds = 0;
-    document.getElementById("watchedCount").textContent = watchedAds;
+setInterval(resetDailyAtMidnight, 1000);
 
-    let percent = (watchedAds / totalAds) * 100;
-    document.getElementById("progressBar").style.width = percent + "%";
 
-    localStorage.setItem("lastReset", Date.now());
-    saveUserData();
-}, RESET_INTERVAL);
 
 // ============================
 // ANTI ZOOM / ANTI CHEAT
