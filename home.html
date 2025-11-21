@@ -1,30 +1,11 @@
+<!DOCTYPE html>
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="viewport" content="width=device-width, user-scalable=no">
 <title>Mobil UI</title>
 
 <style>
-body {margin:0; background:#0f0f0f; font-family:Arial,sans-serif; color:white; overscroll-behavior:none; touch-action:manipulation;}
-.container {padding:15px; padding-bottom:120px;}
-.card {background:#1a1a1a; border-radius:20px; padding:18px; margin-bottom:18px;}
-.row {display:flex; justify-content:space-between; align-items:center;}
-.profile {display:flex; align-items:center; gap:5px;}
-.profile img {width:55px; height:55px; border-radius:50%; border:3px solid #ff2e2e; object-fit:cover;}
-.lang-btn {background:#ff2e2e; padding:10px 16px; border-radius:12px; font-weight:bold;}
-.balance-big {font-size:28px; font-weight:bold; margin-top:6px;}
-.sub {color:#ff6a6a; margin-top:-5px;}
-.adv-grid {display:flex; justify-content:space-between; margin:20px 0;}
-.adv-box {width:48%; background:#1f1f1f; padding:18px; border-radius:20px; text-align:center;}
-.adv-box .num {font-size:28px; font-weight:bold; color:#ff3d3d;}
-.progress {width:100%; height:8px; background:#333; border-radius:10px; margin:10px 0;}
-.progress-bar {width:0%; height:100%; background:#ff2e2e; border-radius:10px;}
-.watch-btn {width:100%; padding:15px; border:none; border-radius:14px; background:#ff2e2e; color:white; font-size:18px; font-weight:bold; margin-top:10px; cursor:pointer;}
-.bottom-nav {position:fixed; bottom:0; left:0; width:100%; background:#1a1a1a; display:flex; justify-content:space-evenly; padding:14px 0; border-top:1px solid #333; box-sizing:border-box; z-index:999; gap:2px;}
-.nav-item {flex:1; text-align:center; font-size:14px; color:#bbb; cursor:pointer; padding:8px 0;}
-.nav-item.active {color:#ff3d3d; font-weight:bold;}
-.nav-item br {line-height:1.1;}
     body {
         margin: 0;
         background: #0f0f0f;
@@ -62,12 +43,12 @@ body {margin:0; background:#0f0f0f; font-family:Arial,sans-serif; color:white; o
         width: 55px;
         height: 55px;
         border-radius: 50%;
-        border: 3px solid #ff2e2e;
+        border: 3px solid #1e90ff; /* mavi */
         object-fit: cover;
     }
 
     .lang-btn {
-        background: #ff2e2e;
+        background: #1e90ff; /* mavi */
         padding: 10px 16px;
         border-radius: 12px;
         font-weight: bold;
@@ -80,7 +61,7 @@ body {margin:0; background:#0f0f0f; font-family:Arial,sans-serif; color:white; o
     }
 
     .sub {
-        color: #ff6a6a;
+        color: #4aa3ff; /* açıq mavi */
         margin-top: -5px;
     }
 
@@ -101,7 +82,7 @@ body {margin:0; background:#0f0f0f; font-family:Arial,sans-serif; color:white; o
     .adv-box .num {
         font-size: 28px;
         font-weight: bold;
-        color: #ff3d3d;
+        color: #1e90ff; /* mavi */
     }
 
     .progress {
@@ -115,7 +96,7 @@ body {margin:0; background:#0f0f0f; font-family:Arial,sans-serif; color:white; o
     .progress-bar {
         width: 0%;
         height: 100%;
-        background: #ff2e2e;
+        background: #1e90ff; /* mavi */
         border-radius: 10px;
     }
 
@@ -124,7 +105,7 @@ body {margin:0; background:#0f0f0f; font-family:Arial,sans-serif; color:white; o
         padding: 15px;
         border: none;
         border-radius: 14px;
-        background: #ff2e2e;
+        background: #1e90ff; /* mavi */
         color: white;
         font-size: 18px;
         font-weight: bold;
@@ -157,7 +138,7 @@ body {margin:0; background:#0f0f0f; font-family:Arial,sans-serif; color:white; o
     }
 
     .nav-item.active {
-        color: #ff3d3d;
+        color: #1e90ff; /* mavi */
         font-weight: bold;
     }
 
@@ -167,7 +148,66 @@ body {margin:0; background:#0f0f0f; font-family:Arial,sans-serif; color:white; o
 </style>
 </head>
 <body>
-<h2 style="margin:0;">Reklam 1</h2>
+
+<div class="container">
+
+    <!-- PROFILE CARD -->
+    <div class="card">
+        <div class="row">
+            <div class="profile">
+                <img id="userPhoto" src="https://via.placeholder.com/150" alt="profile">
+                <div>
+                    <div id="userName" style="font-size:18px;">Yüklənir...</div>
+                    <div id="userTag" style="color:#aaa;"></div>
+                </div>
+            </div>
+            <div class="lang-btn">AZ</div>
+        </div>
+    </div>
+
+    <!-- BALANCE CARD -->
+    <div class="card">
+        <div style="color:#888;">Balansınız</div>
+        <div class="balance-big" id="bal">0.000 ₼</div>
+        <div class="sub">≈ $0.000</div>
+    </div>
+
+    <!-- AD CARD -->
+    <div class="card">
+        <div class="row">
+            <div>
+                <h2 style="margin:0;">Reklam 1</h2>
+                <div style="color:#aaa;">Hər reklam üçün 0.001₼ qazanın</div>
+            </div>
+            <div class="lang-btn" style="font-size:24px;">☁</div>
+        </div>
+
+        <div class="adv-grid">
+            <div class="adv-box">
+                <div class="num" id="watchedCount">0</div>
+                <div style="color:#f2f2f2;">İzlənən reklamlar</div>
+            </div>
+            <div class="adv-box">
+                <div class="num">50</div>
+                <div style="color:#f2f2f2;">Maksimum</div>
+            </div>
+        </div>
+
+        <div style="color:#ccc;">İrəliləyiş</div>
+        <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+        <button class="watch-btn" id="watchBtn">▶ İndi izlə</button>
+    </div>
+
+</div>
+
+<!-- BOTTOM MENU -->
+<div class="bottom-nav">
+    <div class="nav-item" onclick="window.location.href='home.html'">🏠<br>Ev</div>
+    <div class="nav-item" onclick="window.location.href='tasks.html'">📝<br>Tapşırıqlar</div>
+    <div class="nav-item" onclick="window.location.href='withdraw.html'">💲<br>Çıxarış</div>
 </div>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -176,12 +216,10 @@ body {margin:0; background:#0f0f0f; font-family:Arial,sans-serif; color:white; o
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-let userName="", userTag="";
 let userName = "";
 let userTag = "";
 
 const tgUser = tg.initDataUnsafe.user;
-if(tgUser){
 
 if (tgUser) {
     userName = tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "");
@@ -192,14 +230,6 @@ if (tgUser) {
     document.getElementById("userTag").textContent = userTag;
 }
 
-let balance=0.000, watchedAds=0, totalAds=50;
-if(localStorage.getItem("userData")){
-    const saved=JSON.parse(localStorage.getItem("userData"));
-    balance=saved.balans||0;
-    watchedAds=saved.ads||0;
-    document.getElementById("bal").textContent=balance.toFixed(3)+" ₼";
-    document.getElementById("watchedCount").textContent=watchedAds;
-    document.getElementById("progressBar").style.width=(watchedAds/totalAds*100)+"%";
 let balance = 0.000;
 let watchedAds = 0;
 let totalAds = 50;
@@ -217,8 +247,6 @@ if (localStorage.getItem("userData")) {
     document.getElementById("progressBar").style.width = percent + "%";
 }
 
-function saveUserData(){
-    const jsonData={name:userName, tag:userTag, balans:balance, ads:watchedAds, totalads:totalAds};
 function saveUserData() {
     const jsonData = {
         name: userName,
@@ -230,31 +258,15 @@ function saveUserData() {
     localStorage.setItem("userData", JSON.stringify(jsonData));
 }
 
-function loadSDK(callback){
-    const script=document.createElement("script");
-    script.src="//libtl.com/sdk.js";
-    script.setAttribute("data-zone","10198423");
-    script.setAttribute("data-sdk","show_10198423");
-    script.onload=callback;
 function loadSDK(callback) {
     const script = document.createElement("script");
     script.src = "//libtl.com/sdk.js";
-    script.setAttribute("data-zone", "10198423");
-    script.setAttribute("data-sdk", "show_10198423");
+    script.setAttribute("data-zone", "10219617");
+    script.setAttribute("data-sdk", "show_10219617");
     script.onload = callback;
     document.body.appendChild(script);
 }
 
-const watchBtn=document.getElementById("watchBtn");
-watchBtn.addEventListener("click",()=>{
-    if(watchedAds>=totalAds){ watchBtn.textContent="Limit bitib"; return; }
-    watchBtn.disabled=true;
-    watchBtn.textContent="Reklam açılır...";
-    loadSDK(()=>{
-        if(typeof show_10198423==="function") show_10198423();
-        let timeLeft=10;
-        watchBtn.textContent=`Reklam gedir (${timeLeft}s)`;
-        const timer=setInterval(()=>{
 const watchBtn = document.getElementById("watchBtn");
 
 watchBtn.addEventListener("click", () => {
@@ -269,8 +281,8 @@ watchBtn.addEventListener("click", () => {
 
     loadSDK(() => {
 
-        if (typeof show_10198423 === "function") {
-            show_10198423();
+        if (typeof show_10219617 === "function") {
+            show_10219617();
         }
 
         let timeLeft = 10;
@@ -278,15 +290,10 @@ watchBtn.addEventListener("click", () => {
 
         const timer = setInterval(() => {
             timeLeft--;
-            watchBtn.textContent=`Reklam gedir (${timeLeft}s)`;
-            if(timeLeft<=0){
             watchBtn.textContent = `Reklam gedir (${timeLeft}s)`;
 
             if (timeLeft <= 0) {
                 clearInterval(timer);
-                watchedAds++;
-                document.getElementById("watchedCount").textContent=watchedAds;
-                document.getElementById("progressBar").style.width=(watchedAds/totalAds*100)+"%";
 
                 watchedAds += 1;
                 balance += 0.001;
@@ -298,73 +305,59 @@ watchBtn.addEventListener("click", () => {
                 document.getElementById("progressBar").style.width = percent + "%";
 
                 saveUserData();
-                watchBtn.textContent="▶ İndi izlə";
-                watchBtn.disabled=false;
 
                 watchBtn.textContent = "▶ İndi izlə";
                 watchBtn.disabled = false;
             }
-        },1000);
         }, 1000);
     });
 });
 
-// 🔥 Admin reset yoxlaması (interval ilə)
-function checkAdminReset(){
-    if(localStorage.getItem("resetAds")==="1"){
-        watchedAds=0;
-        document.getElementById("watchedCount").textContent=0;
-        document.getElementById("progressBar").style.width="0%";
 
+// DAILY RESET AT BAKU MIDNIGHT
+const LIMIT = 100, REWARD = 0.005;
+const BAL_KEY = 'bal', COUNT_KEY = 'cnt', RESET_KEY = 'resetTime';
 
-// =====================================================
-// 🔥 GÜNDƏ BİR DƏFƏ AZƏRBAYCAN SAATLA 00:00-DA RESET
-// =====================================================
-function resetDailyAtMidnight() {
-    const now = new Date();
-    const bakuTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Baku" }));
+// LocalStorage təhlükəsiz oxuma/yazma
+function safeGet(k, d = 0){ try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }
+function safeSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
 
-    let h = bakuTime.getHours();
-    let m = bakuTime.getMinutes();
-    let s = bakuTime.getSeconds();
+// Balans və sayğacları yükləyirik
+let bal = parseFloat(safeGet(BAL_KEY, 0));
+let cnt = parseInt(safeGet(COUNT_KEY, 0));
+let resetTime = safeGet(RESET_KEY, null);
 
-    if (h === 0 && m === 0 && s <= 2) {
-        watchedAds = 0;
-        document.getElementById("watchedCount").textContent = 0;
-        document.getElementById("progressBar").style.width = "0%";
+// ➤ 24 saatlıq RESET FUNKSİYASI
+function getNextResetTime(){
+  const now = new Date();
+  const AZ_OFFSET = 4; // Azərbaycan vaxtı üçün +4 saat
 
-        localStorage.setItem("lastReset", Date.now());
-        saveUserData();
-        localStorage.removeItem("resetAds");
-    }
+  // Növbəti Azərbaycan vaxtı ilə gecə 00:00
+  let resetUTC = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    23 - AZ_OFFSET, // Bakı vaxtında 00:00 deməkdir
+    0, 0, 0
+  ));
+
+  // Əgər artıq keçibsə → sabaha təyin et
+  if(now.getTime() > resetUTC.getTime()){
+    resetUTC.setUTCDate(resetUTC.getUTCDate() + 1);
+  }
+  return resetUTC.getTime();
 }
 
-// interval ilə hər 1 saniyə yoxla
-setInterval(checkAdminReset, 1000);
-
-// Anti zoom
-document.addEventListener("gesturestart", e=>e.preventDefault());
-document.addEventListener("gesturechange", e=>e.preventDefault());
-document.addEventListener("gestureend", e=>e.preventDefault());
-document.addEventListener("wheel", e=>{if(e.ctrlKey)e.preventDefault();},{passive:false});
-document.addEventListener("touchmove", e=>{if(e.scale!==1)e.preventDefault();},{passive:false});
-
-// Bottom nav aktiv düymə
-const navItems=document.querySelectorAll(".nav-item");
-const currentPage=window.location.pathname.split("/").pop();
-navItems.forEach(item=>{
-    const onclickAttr=item.getAttribute("onclick");
-    if(!onclickAttr) return;
-    const href=onclickAttr.match(/'(.+?)'/)[1];
-    if(href===currentPage) item.classList.add("active");
-    else item.classList.remove("active");
-setInterval(resetDailyAtMidnight, 1000);
+// İlk girişdə və ya vaxtı keçib → sıfırla
+if(!resetTime || Date.now() > resetTime){
+  cnt = 0;
+  resetTime = getNextResetTime();
+  safeSet(RESET_KEY, resetTime);
+  safeSet(COUNT_KEY, cnt);
+}
 
 
-
-// ============================
 // ANTI ZOOM / ANTI CHEAT
-// ============================
 document.addEventListener("gesturestart", e => e.preventDefault());
 document.addEventListener("gesturechange", e => e.preventDefault());
 document.addEventListener("gestureend", e => e.preventDefault());
@@ -377,9 +370,8 @@ document.addEventListener('touchmove', function (event) {
     if (event.scale !== 1) event.preventDefault();
 }, { passive: false });
 
-// ============================
-// BOTTOM NAV AKTİV DÜYMƏ SƏHİFƏYƏ GÖRƏ
-// ============================
+
+// BOTTOM NAV ACTIVE LOGIC
 const navItems = document.querySelectorAll(".nav-item");
 const currentPage = window.location.pathname.split("/").pop();
 
