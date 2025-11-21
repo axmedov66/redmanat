@@ -315,54 +315,172 @@ watchBtn.addEventListener("click", () => {
 
 
 
-// =====================================================
-// 🔥 GÜNDƏ BİR DƏFƏ AZƏRBAYCAN SAATLA 00:00-DA RESET
-// =====================================================
-const LIMIT = 100, REWARD = 0.005;
-const BAL_KEY = 'bal', COUNT_KEY = 'cnt', RESET_KEY = 'resetTime';
+<script>
+// =======================
+// TELEGRAM USER LOAD
+// =======================
+const tg = window.Telegram.WebApp;
+tg.expand();
 
-// LocalStorage təhlükəsiz oxuma/yazma
-function safeGet(k, d = 0){ try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }
-function safeSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+let userName = "";
+let userTag = "";
 
-// Balans və sayğacları yükləyirik
-let bal = parseFloat(safeGet(BAL_KEY, 0));
-let cnt = parseInt(safeGet(COUNT_KEY, 0));
-let resetTime = safeGet(RESET_KEY, null);
+const tgUser = tg.initDataUnsafe.user;
 
-// ➤ 24 saatlıq RESET FUNKSİYASI
-function getNextResetTime(){
-  const now = new Date();
-  const AZ_OFFSET = 4; // Azərbaycan vaxtı üçün +4 saat
+if (tgUser) {
+    userName = tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "");
+    userTag = tgUser.username ? "@" + tgUser.username : "";
 
-  // Növbəti Azərbaycan vaxtı ilə gecə 00:00
-  let resetUTC = new Date(Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate(),
-    23 - AZ_OFFSET, // Bakı vaxtında 00:00 deməkdir
-    0, 0, 0
-  ));
-
-  // Əgər artıq keçibsə → sabaha təyin et
-  if(now.getTime() > resetUTC.getTime()){
-    resetUTC.setUTCDate(resetUTC.getUTCDate() + 1);
-  }
-  return resetUTC.getTime();
+    document.getElementById("userPhoto").src = tgUser.photo_url || "https://via.placeholder.com/150";
+    document.getElementById("userName").textContent = userName;
+    document.getElementById("userTag").textContent = userTag;
 }
 
-// İlk girişdə və ya vaxtı keçib → sıfırla
-if(!resetTime || Date.now() > resetTime){
-  cnt = 0;
-  resetTime = getNextResetTime();
-  safeSet(RESET_KEY, resetTime);
-  safeSet(COUNT_KEY, cnt);
+// =======================
+// LOCAL DATA
+// =======================
+let balance = 0.000;
+let watchedAds = 0;
+let totalAds = 50;
+
+// RESET DATA
+let resetTime = localStorage.getItem("resetTime");
+
+// Əgər saved userData varsa → yüklə
+if (localStorage.getItem("userData")) {
+    const saved = JSON.parse(localStorage.getItem("userData"));
+
+    balance = saved.balans ?? 0;
+    watchedAds = saved.ads ?? 0;
+
+    document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
+    document.getElementById("watchedCount").textContent = watchedAds;
+
+    let percent = (watchedAds / totalAds) * 100;
+    document.getElementById("progressBar").style.width = percent + "%";
 }
 
 
+// =======================
+// 🔥 GÜNLÜK 00:00 RESET
+// =======================
+
+// Bakı vaxtı ilə növbəti gecə 00:00
+function getNextResetTime() {
+    const now = new Date();
+    const BAKU_OFFSET = 4; // UTC+4
+
+    const resetUTC = new Date(Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(),
+        20, 0, 0 // 00:00 Bakı vaxtı = 20:00 UTC (dünən)
+    ));
+
+    if (now.getTime() > resetUTC.getTime()) {
+        resetUTC.setUTCDate(resetUTC.getUTCDate() + 1);
+    }
+
+    return resetUTC.getTime();
+}
+
+// İlk dəfə girəndə resetTime yoxdursa
+if (!resetTime) {
+    resetTime = getNextResetTime();
+    localStorage.setItem("resetTime", resetTime);
+}
+
+// Əgər vaxt keçibsə → hər gün reset
+if (Date.now() > parseInt(resetTime)) {
+
+    watchedAds = 0;
+    balance = balance; // Balans sıfırlanmır
+
+    saveUserData();
+
+    document.getElementById("watchedCount").textContent = watchedAds;
+    document.getElementById("progressBar").style.width = "0%";
+
+    resetTime = getNextResetTime();
+    localStorage.setItem("resetTime", resetTime);
+}
+
+// =======================
+// SAVE USER DATA
+// =======================
+function saveUserData() {
+    const jsonData = {
+        name: userName,
+        tag: userTag,
+        balans: balance,
+        ads: watchedAds,
+        resetTime: resetTime
+    };
+    localStorage.setItem("userData", JSON.stringify(jsonData));
+}
+
+// =======================
+// LOAD SDK
+// =======================
+function loadSDK(callback) {
+    const script = document.createElement("script");
+    script.src = "//libtl.com/sdk.js";
+    script.setAttribute("data-zone", "10198423");
+    script.setAttribute("data-sdk", "show_10198423");
+    script.onload = callback;
+    document.body.appendChild(script);
+}
+
+// =======================
+// AD WATCH BUTTON
+// =======================
+const watchBtn = document.getElementById("watchBtn");
+
+watchBtn.addEventListener("click", () => {
+
+    if (watchedAds >= totalAds) {
+        watchBtn.textContent = "Limit bitib";
+        return;
+    }
+
+    watchBtn.disabled = true;
+    watchBtn.textContent = "Reklam açılır...";
+
+    loadSDK(() => {
+
+        if (typeof show_10198423 === "function") {
+            show_10198423();
+        }
+
+        let timeLeft = 10;
+        watchBtn.textContent = Reklam gedir (${timeLeft}s);
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            watchBtn.textContent = Reklam gedir (${timeLeft}s);
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+
+                watchedAds += 1;
+                balance += 0.001;
+
+                document.getElementById("watchedCount").textContent = watchedAds;
+                document.getElementById("bal").textContent = balance.toFixed(3) + " ₼";
+let percent = (watchedAds / totalAds) * 100;
+                document.getElementById("progressBar").style.width = percent + "%";
+
+                saveUserData();
+
+                watchBtn.textContent = "▶ İndi izlə";
+                watchBtn.disabled = false;
+            }
+        }, 1000);
+    });
+});
 
 // ============================
-// ANTI ZOOM / ANTI CHEAT
+// ANTI ZOOM
 // ============================
 document.addEventListener("gesturestart", e => e.preventDefault());
 document.addEventListener("gesturechange", e => e.preventDefault());
@@ -377,7 +495,7 @@ document.addEventListener('touchmove', function (event) {
 }, { passive: false });
 
 // ============================
-// BOTTOM NAV AKTİV DÜYMƏ SƏHİFƏYƏ GÖRƏ
+// BOTTOM NAV ACTIVE
 // ============================
 const navItems = document.querySelectorAll(".nav-item");
 const currentPage = window.location.pathname.split("/").pop();
